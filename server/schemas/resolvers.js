@@ -23,10 +23,10 @@ const resolvers = {
             return await Facility.findOne({_id:id});
         },
         profiles: async () => {
-            return Profile.find({});
+            return Profile.find({}).populate("access");
         },
         profile: async (parent, {id}) => {
-            return Profile.findOne({ _id: id });
+            return Profile.findOne({ _id: id }).populate("access");
         },
     },
     Mutation: {       
@@ -73,11 +73,20 @@ const resolvers = {
         },
         updateProfile: async(parent, {id, name, email, password, access, active})=>{
             const changeData = {};
+            if(name !== undefined){
+                changeData.name = name
+            }
+            if(email !== undefined){
+                changeData.email = email
+            }
             if(password !== undefined){
                 changeData.password = password
             }
-            if(name !== undefined){
-                changeData.name = name
+            if(access !== undefined){
+                changeData.access = access
+            }
+            if(active !== undefined){
+                changeData.active = active
             }
 
             return await Profile.findOneAndUpdate({_id: id}, changeData)

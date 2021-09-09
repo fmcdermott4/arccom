@@ -31,10 +31,12 @@ const profileSchema = new Schema({
 });
 
 // pre-save middleware to update password
-profileSchema.pre('findOneAndUpdate', async function (next) {    
+profileSchema.pre('findOneAndUpdate', async function () {    
         let data = this.getUpdate();
-        const saltRounds = 10;    
-        data.password = await bcrypt.hash(data.password, saltRounds);
+        if(data.password){
+            const saltRounds = 10;    
+            data.password = await bcrypt.hash(data.password, saltRounds);
+        }        
 });
 
 // set up pre-save middleware to create password
