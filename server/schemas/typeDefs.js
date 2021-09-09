@@ -69,6 +69,7 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         updateAccess(id:ID, level:String):Access
         updateAuditType(id:ID, name:String):[AuditType]
+        updateProfile(id:ID, name:String, email:String, password:String, access:ID, active:Boolean):Profile
     }
 `;
 module.exports = typeDefs;

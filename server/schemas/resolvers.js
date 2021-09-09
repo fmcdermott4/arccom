@@ -70,6 +70,17 @@ const resolvers = {
         },
         updateAuditType: async (parent, {id, name})=>{
             return await AuditType.findOneAndUpdate({_id: id},{name: name});
+        },
+        updateProfile: async(parent, {id, name, email, password, access, active})=>{
+            const changeData = {};
+            if(password !== undefined){
+                changeData.password = password
+            }
+            if(name !== undefined){
+                changeData.name = name
+            }
+
+            return await Profile.findOneAndUpdate({_id: id}, changeData)
         }
         
     }
