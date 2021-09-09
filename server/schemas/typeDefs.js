@@ -58,17 +58,20 @@ const typeDefs = gql`
         profile(id: ID): Profile
         profiles: [Profile]    
     }
-    type Mutation {        
+    type Mutation {
+        createAccess(level:String): Access        
         createAuditType(name:String): AuditType
         createAuditToConduct(name:String!, auditType:ID!): AuditToConduct
-        createAccess(level:String): Access
         createFacility(name:String): Facility
         createProfile(name: String!, email: String!, password: String!): Auth
         deleteAccess(id:ID):Access
         deleteAuditType(id:ID):AuditType
+        deleteFacility(id:ID):Facility
+        deleteProfile(id:ID):Profile        
         login(email: String!, password: String!): Auth
         updateAccess(id:ID, level:String):Access
         updateAuditType(id:ID, name:String):[AuditType]
+        updateFacility(id:ID, name:String):Facility
         updateProfile(id:ID, name:String, email:String, password:String, access:ID, active:Boolean):Profile
     }
 `;

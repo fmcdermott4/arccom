@@ -53,6 +53,12 @@ const resolvers = {
         deleteAuditType: async (parent, {id}) =>{
             return await AuditType.findOneAndDelete({_id: id})
         },
+        deleteFacility: async (parent, {id}) =>{
+            return await Facility.findOneAndDelete({_id: id})
+        },
+        deleteProfile: async (parent, {id})=>{
+            return await Profile.findOneAndDelete({_id: id})
+        },
         login: async (parent, { email, password }) => {
             const profile = await Profile.findOne({ email });      
             if (!profile) {
@@ -70,6 +76,9 @@ const resolvers = {
         },
         updateAuditType: async (parent, {id, name})=>{
             return await AuditType.findOneAndUpdate({_id: id},{name: name});
+        },
+        updateFacility: async (parent, {id, name})=>{
+            return await Facility.findOneAndUpdate({_id: id}, {name: name})
         },
         updateProfile: async(parent, {id, name, email, password, access, active})=>{
             const changeData = {};
