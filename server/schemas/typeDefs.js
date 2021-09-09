@@ -20,6 +20,7 @@ const typeDefs = gql`
         profile: Profile
     }
     type ConductedAudit {
+        _id: ID
         name: String
         conductedBy: Profile
         auditType: AuditType
@@ -45,13 +46,18 @@ const typeDefs = gql`
         value: Int
         correctAnswer: String
         answerGiven: String
-        answers:[String]        
+        answers:[String]
     }
     type Query {
         access(id:ID):Access
         accesses: [Access]
+        auditType(id:ID):AuditType
         auditTypes: [AuditType]
+        auditToConduct(id:ID):AuditToConduct
         auditsToConduct: [AuditToConduct]
+        auditsToConductByAuditType(auditType:ID):[AuditToConduct]
+        conductedAudit(id:ID):ConductedAudit
+        conductedAudits: [ConductedAudit]
         facilities:[Facility]
         facility(id: ID):Facility
         me: Profile
@@ -62,17 +68,31 @@ const typeDefs = gql`
         createAccess(level:String): Access        
         createAuditType(name:String): AuditType
         createAuditToConduct(name:String!, auditType:ID!): AuditToConduct
+        createConductedAudit(name:String, conductedBy:ID, auditType:ID, dateConducted:String, questions:[AnsweredQuestion]):ConductedAudit
         createFacility(name:String): Facility
         createProfile(name: String!, email: String!, password: String!): Auth
         deleteAccess(id:ID):Access
         deleteAuditType(id:ID):AuditType
+        deleteAuditToConduct(id:ID):AuditToConduct
+        deleteConductedAudit(id:ID):ConductedAudit
         deleteFacility(id:ID):Facility
         deleteProfile(id:ID):Profile        
         login(email: String!, password: String!): Auth
         updateAccess(id:ID, level:String):Access
+        updateAuditToConduct(id:ID, name:String, auditType:ID): AuditToConduct
         updateAuditType(id:ID, name:String):[AuditType]
+        updateConductedAudit(id:ID, name:String, conductedBy:ID, auditType:ID, dateConducted:String, questions:[AnsweredQuestion]):ConductedAudit
         updateFacility(id:ID, name:String):Facility
         updateProfile(id:ID, name:String, email:String, password:String, access:ID, active:Boolean):Profile
+    }
+    input AnsweredQuestion {
+        _id:ID
+        requirement: String
+        question: String
+        value: Int
+        correctAnswer: String
+        answerGiven: String
+        answers:[String]        
     }
 `;
 module.exports = typeDefs;

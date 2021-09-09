@@ -1,4 +1,4 @@
-const { Access, AuditType, AuditToConduct, Facility, Profile } = require('../models')
+const { Access, AuditType, AuditToConduct, ConductedAudit, Facility, Profile } = require('../models')
 const { signToken } = require('../utils/auth');
 
 
@@ -9,13 +9,28 @@ const resolvers = {
         },
         accesses: async () =>{
             return await Access.find({});
-        },        
-        auditsToConduct: async () =>{
-            return await AuditToConduct.find({}).populate("auditType");
+        },
+        auditType: async (parent, {id}) =>{
+            return await AuditType.find({_id: id});
         },
         auditTypes: async () =>{
             return await AuditType.find({});
         },
+        auditToConduct: async (parent, {id}) =>{
+            return await AuditToConduct.find({_id: id}).populate("auditType");
+        },
+        auditsToConduct: async () =>{
+            return await AuditToConduct.find({}).populate("auditType");
+        },
+        auditsToConductByAuditType: async (parent, {auditType})=>{
+            return await AuditToConduct.find({auditType: auditType}).populate("auditType")
+        },
+        conductedAudit: async (parent, {id}) =>{
+            return await ConductedAudit.findOne({_id: id}).populate("conductedBy auditType")
+        },
+        conductedAudits: async () =>{
+            return await ConductedAudit.find({}).populate("conductedBy auditType")
+        },        
         facilities: async () => {
             return await Facility.find({});
         },
@@ -35,23 +50,32 @@ const resolvers = {
         },
         createAuditToConduct: async (parent, {name, auditType}) => {
             return await AuditToConduct.create({name, auditType})
+        },              
+        createAccess: async (parent, {level}) =>{
+            return await Access.create({level});
+        },
+        createConductedAudit: async (parent, {name, conductedBy, auditType, dateConducted, questions})=>{
+            return await ConductedAudit.create({name, conductedBy, auditType, dateConducted, questions})
+        }, 
+        createFacility: async (parent, {name})=>{
+            return await Facility.create({name});
         },
         createProfile: async (parent, { name, email, password }) => {
             const profile = await Profile.create({ name, email, password });
             const token = signToken(profile);      
             return { token, profile };          
         },
-        createAccess: async (parent, {level}) =>{
-            return await Access.create({level});
-        },
-        createFacility: async (parent, {name})=>{
-            return await Facility.create({name});
-        },
         deleteAccess: async (parent, {id}) =>{
             return await Access.findOneAndDelete({_id: id})
         },
+        deleteAuditToConduct: async (parent,{id})=>{
+            return await AuditToConduct.findOneAndDelete({_id: id})
+        },
         deleteAuditType: async (parent, {id}) =>{
             return await AuditType.findOneAndDelete({_id: id})
+        },
+        deleteConductedAudit: async (parent, {id})=>{
+            return await ConductedAudit.findOneAndDelete({_id: id})
         },
         deleteFacility: async (parent, {id}) =>{
             return await Facility.findOneAndDelete({_id: id})
@@ -77,6 +101,36 @@ const resolvers = {
         updateAuditType: async (parent, {id, name})=>{
             return await AuditType.findOneAndUpdate({_id: id},{name: name});
         },
+        updateAuditToConduct: async(parent, {id, name, auditType}) =>{
+            const changeData = {};
+            if(name !== undefined){
+                changeData.name = name
+            }
+            if(auditType !== undefined){
+                changeData.auditType = auditType
+            }
+
+            return await AuditToConduct.findOneAndUpdate({_id: id}, changeData)
+        },
+        updateConductedAudit: async (parent, {id, name, conductedBy, auditType, dateConducted, questions})=>{
+            const changeData = {};
+            if(name !== undefined){
+                changeData.name = name
+            }
+            if(conductedBy !== undefined){
+                changeData.conductedBy= conductedBy
+            }
+            if(auditType !== undefined){
+                changeData.auditType = auditType
+            }
+            if(dateConducted !== undefined){
+                changeData.dateConducted = dateConducted
+            }
+            if(questions !== undefined){
+                changeData.questions = questions
+            }            
+            return await ConductedAudit.findOneAndUpdate({_id: id}, changeData)
+        }, 
         updateFacility: async (parent, {id, name})=>{
             return await Facility.findOneAndUpdate({_id: id}, {name: name})
         },
