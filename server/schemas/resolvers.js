@@ -4,6 +4,9 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
+        access: async (parent, {id}) =>{
+            return await Access.findOne({_id:id});
+        },
         accesses: async () =>{
             return await Access.find({});
         },        
@@ -44,6 +47,9 @@ const resolvers = {
         createFacility: async (parent, {name})=>{
             return await Facility.create({name});
         },
+        deleteAccess: async (parent, {id}) =>{
+            return await Access.findOneAndDelete({_id: id})
+        },
         deleteAuditType: async (parent, {id}) =>{
             return await AuditType.findOneAndDelete({_id: id})
         },
@@ -58,6 +64,9 @@ const resolvers = {
             }      
             const token = signToken(profile);
             return { token, profile };
+        },
+        updateAccess: async (parent, {id, level})=>{
+            return await Access.findOneAndUpdate({_id: id}, {level: level})
         },
         updateAuditType: async (parent, {id, name})=>{
             return await AuditType.findOneAndUpdate({_id: id},{name: name});

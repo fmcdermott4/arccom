@@ -48,6 +48,7 @@ const typeDefs = gql`
         answers:[String]        
     }
     type Query {
+        access(id:ID):Access
         accesses: [Access]
         auditTypes: [AuditType]
         auditsToConduct: [AuditToConduct]
@@ -63,8 +64,10 @@ const typeDefs = gql`
         createAccess(level:String): Access
         createFacility(name:String): Facility
         createProfile(name: String!, email: String!, password: String!): Auth
+        deleteAccess(id:ID):Access
         deleteAuditType(id:ID):AuditType
         login(email: String!, password: String!): Auth
+        updateAccess(id:ID, level:String):Access
         updateAuditType(id:ID, name:String):[AuditType]
     }
 `;
