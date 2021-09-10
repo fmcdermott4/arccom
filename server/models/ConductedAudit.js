@@ -34,7 +34,7 @@ const conductedAuditSchema = new Schema({
             value: {
                 type: Number,
                 required: true,
-                default: 1
+                default: 0
             },
             correctAnswer: {
                 type: String,
@@ -51,7 +51,11 @@ const conductedAuditSchema = new Schema({
                     type:String,
                     trim:true,
                 }
-            ]            
+            ],
+            comment: {
+                type: String,
+                trim: true
+            }            
         }
     ]
 });

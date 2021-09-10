@@ -110,7 +110,13 @@ export const READ_CONDUCTED_AUDIT = gql`
             dateConducted
             questions{
                 _id
+                requirement
                 question
+                value
+                correctAnswer
+                answerGiven
+                answers
+                comment
             }    
         }
     }
@@ -132,7 +138,13 @@ export const READ_CONDUCTED_AUDITS = gql`
             dateConducted
             questions{
                 _id
+                requirement
                 question
+                value
+                correctAnswer
+                answerGiven
+                answers
+                comment
             }        
         }
     }

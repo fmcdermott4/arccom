@@ -48,6 +48,13 @@ export const CREATE_CONDUCTED_AUDIT = gql`
             dateConducted
             questions{
                 _id
+                requirement
+                question
+                value
+                correctAnswer
+                answerGiven
+                answers
+                comment
             }
         }
     }
@@ -144,6 +151,11 @@ export const UPDATE_CONDUCTED_AUDIT=gql`
                 _id
                 requirement
                 question
+                value
+                correctAnswer
+                answerGiven
+                answers
+                comment
             }        
         }
     }

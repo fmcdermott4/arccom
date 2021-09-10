@@ -47,6 +47,7 @@ const typeDefs = gql`
         correctAnswer: String
         answerGiven: String
         answers:[String]
+        comment: String
     }
     type Query {
         access(id:ID):Access
@@ -92,7 +93,8 @@ const typeDefs = gql`
         value: Int
         correctAnswer: String
         answerGiven: String
-        answers:[String]        
+        answers:[String] 
+        comment:String       
     }
 `;
 module.exports = typeDefs;
