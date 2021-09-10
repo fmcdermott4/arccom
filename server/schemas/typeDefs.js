@@ -16,7 +16,7 @@ const typeDefs = gql`
         name: String
     }
     type Auth {
-        token: ID!
+        token: String
         profile: Profile
     }
     type ConductedAudit {

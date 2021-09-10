@@ -6,4 +6,4 @@ const Facility = require('./Facility');
 const Profile = require('./Profile');
 
 
-module.exports =  { Access, AuditType, AuditToConduct, ConductedAudit, Facility, Profile,  };
+module.exports =  { Access, AuditType, AuditToConduct, ConductedAudit, Facility, Profile };

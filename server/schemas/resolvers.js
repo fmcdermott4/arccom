@@ -1,6 +1,6 @@
 const { Access, AuditType, AuditToConduct, ConductedAudit, Facility, Profile } = require('../models')
 const { signToken } = require('../utils/auth');
-
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
     Query: {
@@ -84,7 +84,7 @@ const resolvers = {
             return await Profile.findOneAndDelete({_id: id})
         },
         login: async (parent, { email, password }) => {
-            const profile = await Profile.findOne({ email });      
+            const profile = await Profile.findOne({ email }); 
             if (!profile) {
                 throw new AuthenticationError('No profile with this email found!');
             }      

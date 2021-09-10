@@ -3,16 +3,21 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  createHttpLink,
+  createHttpLink
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import Auth from './utils/auth';
 
+
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Header from './components/Header';
+
+
 const httpLink = createHttpLink({
-  uri: '/graphql',
-  
+  uri: '/graphql',  
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -32,20 +37,50 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-function App() {
+const App = ()=> {
 
-
+console.log(authLink.concat(httpLink));
 
   if(!Auth.loggedIn()){
     return(
-      <div>You need to log in</div>
+      <ApolloProvider client={client}>
+        
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            <Header /> 
+            <div className="container">
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            </div>
+          </div>
+        </Router>
+      </ApolloProvider>
     )
   }
   return (
     <ApolloProvider client={client}>
-      <Router>
-      Hello World!
-      </Router>      
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            <Header /> 
+            <div className="container">
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route exact path="/login">
+                  <Login />
+                </Route>
+                <Route exact path="/signup">
+                  <Signup />
+                </Route>
+              </Switch>
+            </div>
+          </div>
+        </Router>
     </ApolloProvider>
   );
 }
