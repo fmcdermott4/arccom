@@ -22,7 +22,7 @@ const auditToConductSchema = new Schema({
                 trim:true,
             },
             value: {
-                type: Number,
+                type: String,
                 required: true,
                 default: 1
             },

@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import {READ_AUDIT_TYPES} from '../utils/queries'
+import {READ_AUDIT_TYPES} from '../utils/queries';
+import {CREATE_AUDIT_TO_CONDUCT} from '../utils/mutations';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 
 
 const CreateAudit = () => {
-    const {loading, error, data} = useQuery(READ_AUDIT_TYPES);
+    const {loading, data} = useQuery(READ_AUDIT_TYPES);
 
 
     const [audit, setAuditType] = useState(
@@ -66,7 +67,6 @@ const CreateAudit = () => {
         setAuditType({
             ...audit
         })
-        console.log(audit)
     };
 
 
@@ -99,7 +99,24 @@ const CreateAudit = () => {
             ...audit
         })
     }
+    const [createAuditToConduct, {error}] = useMutation(CREATE_AUDIT_TO_CONDUCT);
 
+    const handleFormSubmit = async (event) =>{
+        event.preventDefault();
+        console.log(audit)
+        // if(audit.name === ""){
+        //     alert("Please give audit a name")
+        // }
+        try{
+            await createAuditToConduct({
+                variables: {...audit}
+            }).then(alert("Successfully submitted"))
+        } catch(e){
+            console.log(e)
+        }
+        
+
+    }
 
     if(error){
         console.error(error)
@@ -157,7 +174,17 @@ const CreateAudit = () => {
                             </div>)
                         })}
                     </Form>
-                    <Button onClick={addQuestion}>Add Question</Button>
+                    <Row>
+                        <Col>
+                            <Button onClick={addQuestion}>Add Question</Button>
+                        </Col>
+                        <Col/>
+                        <Col>
+                            <Button onClick={handleFormSubmit}>Create Audit</Button>
+                        </Col>
+                        
+                        
+                    </Row>
             </Container>
         </main>
     );

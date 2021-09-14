@@ -48,8 +48,8 @@ const resolvers = {
         createAuditType: async(parent, {name})=>{
             return await AuditType.create({name});          
         },
-        createAuditToConduct: async (parent, {name, auditType}) => {
-            return await AuditToConduct.create({name, auditType})
+        createAuditToConduct: async (parent, {name, auditType, questions}) => {
+            return await AuditToConduct.create({name, auditType, questions})
         },              
         createAccess: async (parent, {level}) =>{
             return await Access.create({level});

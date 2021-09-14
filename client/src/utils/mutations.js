@@ -15,8 +15,8 @@ export const CREATE_ACCESS = gql`
     }
 `;
 export const CREATE_AUDIT_TO_CONDUCT = gql`
-    mutation createAuditToConduct($name:String!, $auditType:ID!){
-        createAuditToConduct(name:$name, auditType:$auditType){
+    mutation createAuditToConduct($name:String!, $auditType:ID!, $questions:[AnsweredQuestion]){
+        createAuditToConduct(name:$name, auditType:$auditType, questions:$questions){
             _id
             name
             auditType{

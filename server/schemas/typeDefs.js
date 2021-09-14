@@ -43,7 +43,7 @@ const typeDefs = gql`
         _id:ID
         requirement: String
         question: String
-        value: Int
+        value: String
         correctAnswer: String
         answerGiven: String
         answers:[String]
@@ -68,7 +68,7 @@ const typeDefs = gql`
     type Mutation {
         createAccess(level:String): Access        
         createAuditType(name:String): AuditType
-        createAuditToConduct(name:String!, auditType:ID!): AuditToConduct
+        createAuditToConduct(name:String!, auditType:ID!, questions:[AnsweredQuestion]): AuditToConduct
         createConductedAudit(name:String, conductedBy:ID, auditType:ID, dateConducted:String, questions:[AnsweredQuestion]):ConductedAudit
         createFacility(name:String): Facility
         createProfile(name: String!, email: String!, password: String!): Auth
@@ -90,7 +90,7 @@ const typeDefs = gql`
         _id:ID
         requirement: String
         question: String
-        value: Int
+        value: String
         correctAnswer: String
         answerGiven: String
         answers:[String] 
