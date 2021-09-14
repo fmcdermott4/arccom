@@ -48,10 +48,34 @@ const CreateAudit = () => {
             ...audit
         })   
     }
+    // Add answer to question
+    const addAnswer= (event) =>{
+        // console.log(event.target.attributes[0].value)
+        // console.log(audit.questions[event.target.attributes[0].value].answers)
+        audit.questions[event.target.attributes[0].value].answers[audit.questions[event.target.attributes[0].value].answers.length] = "";
+        setAuditType({
+            ...audit
+        })
+    };
+    // Updates form when questions on form are updated
+    const updateQuestion = (event) =>{
+        // index of array console.log(event.target.attributes[0].value)
+        // index of question console.log(event.nativeEvent.path[2].attributes[0].value)
+        // console.log(audit.questions[event.nativeEvent.path[2].attributes[0].value].answers[event.target.attributes[0].value])
+        audit.questions[event.nativeEvent.path[2].attributes[0].value].answers[event.target.attributes[0].value] = event.target.value;
+        setAuditType({
+            ...audit
+        })
+        console.log(audit)
+    };
+
+
+
+    // Updates form when form is filled out
     const handleQuestionChange = (event)=>{
         event.preventDefault();
         // console.log(event.target.attributes[0].value)
-        console.log(event.target.name)
+        // console.log(event.target.name)
         // console.log(event.target.value)
         switch (event.target.name){
             case "question":
@@ -64,6 +88,9 @@ const CreateAudit = () => {
             case "value":
                 audit.questions[event.target.attributes[0].value].value = event.target.value;
                 break;
+            case "requirement":
+                audit.questions[event.target.attributes[0].value].requirement = event.target.value;
+                break;
             default: 
                 console.log("No match");
         }
@@ -71,8 +98,6 @@ const CreateAudit = () => {
         setAuditType({
             ...audit
         })
-        console.log(audit)
-        // console.log(event.target.attribute.index.value);
     }
 
 
@@ -118,12 +143,16 @@ const CreateAudit = () => {
                     <Form>
                         {audit.questions.map((audit, index)=>{
                             return(
-                            <div key={index}>
+                            <div key={index} index={index}>
                                 <Form.Label>Question {index+1}</Form.Label>
-                                <Form.Control type="text" index={index} onChange={handleQuestionChange} name="question" placeholder="Enter your question here" />
-                                <Form.Control type="text" index={index} onChange={handleQuestionChange} name="correctAnswer" placeholder="Enter the correct answer here" />
-                                <Form.Control type="number" index={index} onChange={handleQuestionChange} name="value" placeholder="Question value, numbers only!" />
-                                <Form.Control type="text" index={index} onChange={handleQuestionChange} name="requirement" placeholder="Enter requirement source, OSHA code or ARC policy, for example" />
+                                <Row><Col xs={2}>Question</Col><Col xs={10}><Form.Control type="text" index={index} onChange={handleQuestionChange} name="question" placeholder="Enter your question here" /></Col></Row>
+                                <Row><Col xs={2}>Correct Answer</Col><Col xs={10}><Form.Control type="text" index={index} onChange={handleQuestionChange} name="correctAnswer" placeholder="Enter the correct answer here" /></Col></Row>
+                                <Row><Col xs={2}>Question Value</Col><Col xs={10}><Form.Control type="number" index={index} onChange={handleQuestionChange} name="value" placeholder="Question value, numbers only!" /></Col></Row>
+                                <Row><Col xs={2}>Requirement</Col><Col xs={10}><Form.Control type="text" index={index} onChange={handleQuestionChange} name="requirement" placeholder="Enter requirement source, OSHA code or ARC policy, for example" /></Col></Row>
+                                {audit.answers.map((answer, index)=>{
+                                    return(<div>Possible answer {index+1}<Form.Control type="text" index={index} name="answer" placeholder={answer} onChange={updateQuestion} /></div>);
+                                })}
+                                <Button index={index} onClick={addAnswer}>Add Answer</Button>
                                 <hr />
                             </div>)
                         })}
