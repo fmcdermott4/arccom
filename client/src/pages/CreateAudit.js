@@ -107,12 +107,17 @@ const CreateAudit = () => {
         // if(audit.name === ""){
         //     alert("Please give audit a name")
         // }
-        try{
-            await createAuditToConduct({
-                variables: {...audit}
-            }).then(alert("Successfully submitted"))
-        } catch(e){
-            console.log(e)
+        if(audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
+            try{
+                await createAuditToConduct({
+                    variables: {...audit}
+                }).then(alert("Successfully submitted"))
+            } catch(e){
+                console.log(e)
+            }
+        }
+        else{
+            alert("Be sure to fill out required fields")
         }
         
 
