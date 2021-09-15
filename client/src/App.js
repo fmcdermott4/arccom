@@ -11,10 +11,12 @@ import Auth from './utils/auth';
 
 // Pages
 import AuditResults from './pages/AuditResults';
+import ConductAudit from './pages/ConductAudit';
 import CreateAudit from './pages/CreateAudit';
 import DeleteAudit from './pages/DeleteAudit';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import SelectAuditToConduct from './pages/SelectAuditToConduct';
 import Signup from './pages/Signup';
 import UpdateAudit from './pages/UpdateAudit'
 
@@ -84,6 +86,12 @@ const App = ()=> {
                 <Route exact path="/signup">
                   <Signup />
                 </Route>
+                <Route exact path="/audits/selectaudittoconduct">
+                  <SelectAuditToConduct />
+                </Route>
+                <Route exact path="/audits/conductaudit/:auditId">
+                  <ConductAudit />
+                </Route>  
                 <Route exact path="/audits/createaudit">
                   <CreateAudit />
                 </Route>

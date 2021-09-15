@@ -8,11 +8,8 @@ import {CREATE_AUDIT_TO_CONDUCT} from '../utils/mutations';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-
-
 const CreateAudit = () => {
     const {loading, data} = useQuery(READ_AUDIT_TYPES);
-
 
     const [audit, setAuditType] = useState(
         {
@@ -40,6 +37,7 @@ const CreateAudit = () => {
         }                
         return(<Form><Form.Control as="select" defaultValue="OSHA" name="auditType" onChange={handleChange}>{button(auditTypes)}<option key="newAuditType" value="newAuditType">New Audit Type</option></Form.Control></Form>)
     };
+
     // Add question to the page
     const addQuestion= () =>{
         const newQuestion = {requirement : "", question: "", value: 0, correctAnswer:"", answers:["yes", "no", "n/a"]};
@@ -48,7 +46,8 @@ const CreateAudit = () => {
         setAuditType({
             ...audit
         })   
-    }
+    };
+
     // Add answer to question
     const addAnswer= (event) =>{
         // console.log(event.target.attributes[0].value)
@@ -58,6 +57,7 @@ const CreateAudit = () => {
             ...audit
         })
     };
+
     // Updates form when questions on form are updated
     const updateQuestion = (event) =>{
         // index of array console.log(event.target.attributes[0].value)
@@ -68,8 +68,6 @@ const CreateAudit = () => {
             ...audit
         })
     };
-
-
 
     // Updates form when form is filled out
     const handleQuestionChange = (event)=>{
@@ -98,7 +96,8 @@ const CreateAudit = () => {
         setAuditType({
             ...audit
         })
-    }
+    };
+
     const [createAuditToConduct, {error}] = useMutation(CREATE_AUDIT_TO_CONDUCT);
 
     const handleFormSubmit = async (event) =>{
@@ -119,9 +118,7 @@ const CreateAudit = () => {
         else{
             alert("Be sure to fill out required fields")
         }
-        
-
-    }
+    };
 
     if(error){
         console.error(error)
@@ -192,7 +189,7 @@ const CreateAudit = () => {
                     </Row>
             </Container>
         </main>
-    );
+    )
 };
 
 export default CreateAudit;

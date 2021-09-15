@@ -25,7 +25,7 @@ const Navigation = () => {
             </NavDropdown>
             <Nav.Link href="/safety">Safety</Nav.Link> */}
             <NavDropdown title="Audits" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/audits/conductaudit">Conduct Audit</NavDropdown.Item>
+              <NavDropdown.Item href="/audits/selectaudittoconduct">Conduct Audit</NavDropdown.Item>
               <NavDropdown.Item href="/audits/createaudit">Create Audit</NavDropdown.Item>
               <NavDropdown.Item href="/audits/auditresults">Audit Results</NavDropdown.Item>
               <NavDropdown.Item href="/audits/updateaudit">Update Audit</NavDropdown.Item>
