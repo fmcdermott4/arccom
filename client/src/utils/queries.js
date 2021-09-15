@@ -47,6 +47,7 @@ export const READ_AUDIT_TO_CONDUCT = gql`
             }
             questions{
                 _id
+                comment
                 requirement
                 question
                 value

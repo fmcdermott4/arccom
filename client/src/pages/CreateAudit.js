@@ -7,15 +7,17 @@ import {READ_AUDIT_TYPES} from '../utils/queries';
 import {CREATE_AUDIT_TO_CONDUCT} from '../utils/mutations';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useHistory} from 'react-router-dom';
 
 const CreateAudit = () => {
+    const history = useHistory();
     const {loading, data} = useQuery(READ_AUDIT_TYPES);
 
     const [audit, setAuditType] = useState(
         {
             "name" : "",
             "auditType" : "",
-            "questions" : [{requirement : "", question: "", value: 0, correctAnswer:"", answers:["yes", "no", "n/a"]}]
+            "questions" : [{answerGiven : "", comment: "", requirement : "", question: "", value: 0, correctAnswer:"", answers:["yes", "no", "n/a"]}]
         }
     );
 
@@ -110,7 +112,7 @@ const CreateAudit = () => {
             try{
                 await createAuditToConduct({
                     variables: {...audit}
-                }).then(alert("Successfully submitted"))
+                }).then(alert("Successfully submitted")).then(history.push("/"))
             } catch(e){
                 console.log(e)
             }

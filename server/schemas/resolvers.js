@@ -17,7 +17,7 @@ const resolvers = {
             return await AuditType.find({});
         },
         auditToConduct: async (parent, {id}) =>{
-            return await AuditToConduct.find({_id: id}).populate("auditType");
+            return await AuditToConduct.findOne({_id: id}).populate("auditType quesions");
         },
         auditsToConduct: async () =>{
             return await AuditToConduct.find({}).populate("auditType");

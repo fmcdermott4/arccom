@@ -31,12 +31,20 @@ const auditToConductSchema = new Schema({
                 required: true,
                 trim:true,        
             },
+            answerGiven: {
+                type: String,
+                trim: true
+            },
             answers: [
                 {
                     type:String,
                     trim:true,
                 }
-            ]            
+            ],
+            comment: {
+                type: String,
+                trim: true
+            }            
         }
     ]
 });
