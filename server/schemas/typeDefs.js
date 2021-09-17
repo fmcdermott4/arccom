@@ -60,6 +60,7 @@ const typeDefs = gql`
         auditsToConductByAuditType(auditType:ID):[AuditToConduct]
         conductedAudit(id:ID):ConductedAudit
         conductedAudits: [ConductedAudit]
+        conductedAuditsFiltered(id:ID, facility:ID):[ConductedAudit]
         facilities:[Facility]
         facility(id: ID):Facility
         me: Profile

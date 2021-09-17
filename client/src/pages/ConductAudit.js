@@ -77,22 +77,20 @@ const Audit = (auditData) => {
         setAudit(
             auditToUpdate
         );
-        // console.log(audit)
+        
     };
     const updateFacility = (event)=>{
-        // console.log(event.target.value)
+        
         setAudit({
             ...audit,
             "facility": event.target.value
         })
-        console.log(audit)
     }
 
     const [createConductedAudit] = useMutation(CREATE_CONDUCTED_AUDIT);
     
     const handleFormSubmit = async (event) =>{
         event.preventDefault();
-        // console.log(audit);
         let dataCheck = true;
         for(let i=0; i<audit.questions.length; i++){
             delete audit.questions[i].__typename;
@@ -142,7 +140,6 @@ const Audit = (auditData) => {
         }
         {
             auditToConduct.questions.map((question, index)=>{
-                // console.log(question);
                 return(
                     <div key={question._id}>
                         <hr/>

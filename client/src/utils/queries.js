@@ -136,6 +136,10 @@ export const READ_CONDUCTED_AUDITS = gql`
                 _id
                 name
             }
+            facility{
+                _id
+                name
+            }
             dateConducted
             questions{
                 _id
@@ -147,6 +151,36 @@ export const READ_CONDUCTED_AUDITS = gql`
                 answers
                 comment
             }        
+        }
+    }
+`;
+export const READ_CONDUCTED_AUDITS_FILTERED = gql`
+    query conductedAuditsFiltered($id:ID, $facility:ID){
+        conductedAuditsFiltered(id:$id, facility:$facility){
+        _id
+        name
+        facility{
+            _id
+            name
+        }
+        conductedBy{
+            _id
+            name
+            email
+        }
+        auditType{
+            _id
+            name
+        }
+        dateConducted
+        questions{
+            requirement
+            question
+            value
+            correctAnswer
+            answerGiven
+            comment
+        }
         }
     }
 `;

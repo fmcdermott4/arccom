@@ -26,11 +26,21 @@ const resolvers = {
             return await AuditToConduct.find({auditType: auditType}).populate("auditType")
         },
         conductedAudit: async (parent, {id}) =>{
-            return await ConductedAudit.findOne({_id: id}).populate("conductedBy auditType")
+            return await ConductedAudit.findOne({_id: id}).populate("conductedBy auditType facility")
         },
         conductedAudits: async () =>{
-            return await ConductedAudit.find({}).populate("conductedBy auditType")
-        },        
+            return await ConductedAudit.find().populate("conductedBy auditType facility")
+        },  
+        conductedAuditsFiltered: async(parent, {id, facility}) =>{
+            const auditFilters = {};
+            if( id !== undefined){
+                auditFilters._id = id
+            };
+            if( facility !== undefined){
+                auditFilters.facility = facility
+            }
+            return await ConductedAudit.find(auditFilters).populate("conductedBy auditType facility")
+        },      
         facilities: async () => {
             return await Facility.find({});
         },
