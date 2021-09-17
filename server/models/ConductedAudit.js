@@ -16,6 +16,10 @@ const conductedAuditSchema = new Schema({
         type: String,
         trim: true
     },
+    facility:{
+        type:Schema.Types.ObjectId,
+        ref: "Facility"
+    },
     questions:[
         {
             requirement: {

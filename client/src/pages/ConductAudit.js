@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {useQuery, useMutation} from '@apollo/client';
 import { useParams} from 'react-router-dom';
-import {READ_AUDIT_TO_CONDUCT} from '../utils/queries';
+import {READ_AUDIT_TO_CONDUCT, READ_FACILITIES} from '../utils/queries';
 import Auth from '../utils/auth';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import {CREATE_CONDUCTED_AUDIT} from '../utils/mutations';
 import Button from 'react-bootstrap/Button';
 import { useHistory} from 'react-router-dom';
@@ -31,9 +32,10 @@ const ConductAudit = () =>{
     )
 }
 
-const Audit = (data) => {
+const Audit = (auditData) => {
     const history = useHistory();
-    let auditToConduct = data.data.auditToConduct;
+    const {data, loading} = useQuery(READ_FACILITIES);
+    let auditToConduct = auditData.data.auditToConduct;
     const myProfileId = Auth.getProfile().data._id;
     
     const now = () => {
@@ -75,20 +77,31 @@ const Audit = (data) => {
         setAudit(
             auditToUpdate
         );
+        // console.log(audit)
+    };
+    const updateFacility = (event)=>{
+        // console.log(event.target.value)
+        setAudit({
+            ...audit,
+            "facility": event.target.value
+        })
         console.log(audit)
     }
 
-    const [createConductedAudit, {error}] = useMutation(CREATE_CONDUCTED_AUDIT);
-
+    const [createConductedAudit] = useMutation(CREATE_CONDUCTED_AUDIT);
+    
     const handleFormSubmit = async (event) =>{
         event.preventDefault();
-        console.log(audit);
+        // console.log(audit);
         let dataCheck = true;
         for(let i=0; i<audit.questions.length; i++){
             delete audit.questions[i].__typename;
             if(!audit.questions[i].answerGiven){
                 dataCheck = false;
             }
+        }
+        if(!audit.facility){
+            dataCheck=false
         }
         if(dataCheck){
             try{
@@ -99,12 +112,34 @@ const Audit = (data) => {
                 console.log(error)
             }
         }else(
-            alert("Please answer all questions")
+            alert("Please ensure facility and questions are answered")
         )
         
     }
+    if(loading){
+        return<div>Loading...</div>
+    }
+    
     return(
     <div>
+        {   <Row>
+                <Col md="auto" >
+                Please select facility:
+                </Col>
+                <Col md="auto">
+                <Form.Control as="select" name="facility" defaultValue="" onChange={updateFacility}>
+                    <option disabled key="" value="">Select Answer</option>
+                    {
+                        data.facilities.map((facility=>{
+                            return(
+                                <option key={facility._id} value={facility._id}>{facility.name}</option>
+                            )
+                        }))
+                    }
+                </Form.Control>
+                </Col>
+            </Row>
+        }
         {
             auditToConduct.questions.map((question, index)=>{
                 // console.log(question);

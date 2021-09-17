@@ -22,6 +22,7 @@ const typeDefs = gql`
     type ConductedAudit {
         _id: ID
         name: String
+        facility: Facility
         conductedBy: Profile
         auditType: AuditType
         dateConducted: String
@@ -69,7 +70,7 @@ const typeDefs = gql`
         createAccess(level:String): Access        
         createAuditType(name:String): AuditType
         createAuditToConduct(name:String!, auditType:ID!, questions:[AnsweredQuestion]): AuditToConduct
-        createConductedAudit(name:String, conductedBy:ID, auditType:ID, dateConducted:String, questions:[AnsweredQuestion]):ConductedAudit
+        createConductedAudit(name:String, facility:ID, conductedBy:ID, auditType:ID, dateConducted:String, questions:[AnsweredQuestion]):ConductedAudit
         createFacility(name:String): Facility
         createProfile(name: String!, email: String!, password: String!): Auth
         deleteAccess(id:ID):Access
