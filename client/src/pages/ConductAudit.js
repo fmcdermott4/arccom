@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
-import {useQuery} from '@apollo/client';
+import {useQuery, useMutation} from '@apollo/client';
 import { useParams} from 'react-router-dom';
 import {READ_AUDIT_TO_CONDUCT} from '../utils/queries';
 import Auth from '../utils/auth';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import {CREATE_CONDUCTED_AUDIT} from '../utils/mutations';
+import Button from 'react-bootstrap/Button';
+import { useHistory} from 'react-router-dom';
 
 const ConductAudit = () =>{
         const {auditId} = useParams();
@@ -29,6 +32,7 @@ const ConductAudit = () =>{
 }
 
 const Audit = (data) => {
+    const history = useHistory();
     let auditToConduct = data.data.auditToConduct;
     const myProfileId = Auth.getProfile().data._id;
     
@@ -41,7 +45,7 @@ const Audit = (data) => {
         var date = today.getFullYear()+'-'+right(("0"+(today.getMonth()+1)), 2)+'-'+ right(("0" + today.getDate()), 2);
         return(date)
     };
-    let [audit, setAudit] = useState({
+    const [audit, setAudit] = useState({
         "name": auditToConduct.name,
         "conductedBy": myProfileId,
         "auditType": auditToConduct.auditType._id,
@@ -72,6 +76,32 @@ const Audit = (data) => {
             auditToUpdate
         );
         console.log(audit)
+    }
+
+    const [createConductedAudit, {error}] = useMutation(CREATE_CONDUCTED_AUDIT);
+
+    const handleFormSubmit = async (event) =>{
+        event.preventDefault();
+        console.log(audit);
+        let dataCheck = true;
+        for(let i=0; i<audit.questions.length; i++){
+            delete audit.questions[i].__typename;
+            if(!audit.questions[i].answerGiven){
+                dataCheck = false;
+            }
+        }
+        if(dataCheck){
+            try{
+                await createConductedAudit({
+                    variables: {...audit}
+                }).then(alert("Successfully submitted")).then(history.push("/"))
+            }catch(error){
+                console.log(error)
+            }
+        }else(
+            alert("Please answer all questions")
+        )
+        
     }
     return(
     <div>
@@ -106,6 +136,7 @@ const Audit = (data) => {
                     </div>)
             })
         }
+        <Button onClick={handleFormSubmit}>Submit Audit</Button>
     </div>
     )
 }

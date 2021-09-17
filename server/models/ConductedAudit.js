@@ -2,22 +2,18 @@ const {Schema, model} = require('mongoose');
 
 const conductedAuditSchema = new Schema({ 
     name:{
-        type: String,
-        required: true
+        type: String
     },
     conductedBy:{
         type: Schema.Types.ObjectId,
-        required: true,
         ref: "Profile"
     },
     auditType:{
         type: Schema.Types.ObjectId,
-        required: true,
-        ref: "AuditType",
+        ref: "AuditType"
     },
     dateConducted:{
         type: String,
-        required: true,
         trim: true
     },
     questions:[
@@ -28,22 +24,17 @@ const conductedAuditSchema = new Schema({
             },
             question: {
                 type: String,
-                required: true,
-                trim:true,
+                trim:true
             },
             value: {
-                type: Number,
-                required: true,
-                default: 0
+                type: String
             },
             correctAnswer: {
                 type: String,
-                required: true,
-                trim:true,        
+                trim:true       
             },
             answerGiven: {
                 type: String,
-                required: true,
                 trim: true
             },
             answers: [

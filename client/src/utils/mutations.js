@@ -36,26 +36,7 @@ export const CREATE_AUDIT_TYPE = gql`
 export const CREATE_CONDUCTED_AUDIT = gql`
     mutation createConductedAudit($name:String, $conductedBy:ID, $auditType:ID, $dateConducted:String, $questions:[AnsweredQuestion]){
         createConductedAudit(name:$name, conductedBy:$conductedBy, auditType:$auditType, dateConducted:$dateConducted, questions:$questions){
-            name
-            conductedBy{
-                _id
-                name
-            }
-            auditType{
-                _id
-                name
-            }
-            dateConducted
-            questions{
-                _id
-                requirement
-                question
-                value
-                correctAnswer
-                answerGiven
-                answers
-                comment
-            }
+            _id
         }
     }
 `;
