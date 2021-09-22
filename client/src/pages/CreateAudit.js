@@ -108,6 +108,10 @@ const CreateAudit = () => {
         // if(audit.name === ""){
         //     alert("Please give audit a name")
         // }
+        // let dataCheck =true;
+        // for(let i = 0; i<audit.questions.length; i++){
+        //     if(audit.questions[i])
+        // }
         if(audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
             try{
                 await createAuditToConduct({

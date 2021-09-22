@@ -24,32 +24,46 @@ const conductedAuditSchema = new Schema({
         {
             requirement: {
                 type: String,
-                trim: true
+                trim: true,
+                required: true,
+                default:"No documented requirement"
             },
             question: {
                 type: String,
-                trim:true
+                trim:true,
+                required:true,
+                default: "No question"
             },
             value: {
-                type: String
+                type: String,
+                required: true,
+                default: "1"
             },
             correctAnswer: {
                 type: String,
-                trim:true       
+                trim:true,
+                required:true,
+                default: "Yes"       
             },
             answerGiven: {
                 type: String,
-                trim: true
+                trim: true,
+                required: true,
+                default: "No"
             },
             answers: [
                 {
                     type:String,
                     trim:true,
+                    required:true,
+                    default:["Yes", "No", "n/a"]
                 }
             ],
             comment: {
                 type: String,
-                trim: true
+                trim: true,
+                required:true,
+                default:"No comments"
             }            
         }
     ]
