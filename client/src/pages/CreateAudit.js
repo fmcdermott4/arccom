@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import {READ_AUDIT_TYPES} from '../utils/queries';
-import {CREATE_AUDIT_TO_CONDUCT} from '../utils/mutations';
+import {CREATE_AUDIT_TO_CONDUCT, CREATE_AUDIT_TYPE} from '../utils/mutations';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useHistory} from 'react-router-dom';
@@ -20,6 +20,7 @@ const CreateAudit = () => {
             "questions" : [{answerGiven : "", comment: "", requirement : "", question: "", value: 0, correctAnswer:"", answers:["yes", "no", "n/a"]}]
         }
     );
+    const [newAuditType, setNewAuditType] = useState();
 
     // Handle change function for create audit page
     const handleChange = (event) =>{
@@ -28,6 +29,7 @@ const CreateAudit = () => {
             ...audit,
             [event.target.name] : event.target.value
         })
+        // console.log(audit);
     }
 
     // Dropdown button for choosing audit type
@@ -101,10 +103,11 @@ const CreateAudit = () => {
     };
 
     const [createAuditToConduct, {error}] = useMutation(CREATE_AUDIT_TO_CONDUCT);
+    const [createNewAuditType] = useMutation(CREATE_AUDIT_TYPE);
 
     const handleFormSubmit = async (event) =>{
         event.preventDefault();
-        console.log(audit)
+        // console.log(audit)
         // if(audit.name === ""){
         //     alert("Please give audit a name")
         // }
@@ -112,8 +115,37 @@ const CreateAudit = () => {
         // for(let i = 0; i<audit.questions.length; i++){
         //     if(audit.questions[i])
         // }
-        if(audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
+        let newAuditTypeData={};
+        
+        if(audit.auditType ==="newAuditType" && newAuditType && audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
             try{
+                newAuditTypeData = await createNewAuditType({
+                    variables: {...newAuditType}
+                }).then(alert("New audit type successfull created")).then(setAuditType({
+            ...audit,
+            auditType: newAuditTypeData._id
+        }))
+            } catch(e){
+                console.log(e)
+            }
+            try{                
+                await createAuditToConduct({
+                    variables: {...audit}
+                }).then(alert("Successfully submitted")).then(history.push("/"))
+            } catch(e){
+                console.log(e)
+            }
+
+        }else if(audit.auditType ==="newAuditType" && !newAuditType){
+            alert("Please name your new audit type");
+            return
+        } else{
+            alert("Be sure to fill out required fields")
+            return
+        }
+
+        if(audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
+            try{                
                 await createAuditToConduct({
                     variables: {...audit}
                 }).then(alert("Successfully submitted")).then(history.push("/"))
@@ -125,6 +157,11 @@ const CreateAudit = () => {
             alert("Be sure to fill out required fields")
         }
     };
+    const newAuditTypeUpdate = (event) =>{
+        setNewAuditType({
+            name: event.target.value
+        })
+    }
 
     if(error){
         console.error(error)
@@ -150,8 +187,10 @@ const CreateAudit = () => {
                             </Col>
                             <Col>
                                 <Form>
-                                    <Form.Control name="name" type="text" onChange={handleChange} placeholder="Enter audit name"/> 
+                                    <Form.Control name="name" type="text" onChange={handleChange} placeholder="Enter audit name"/>
+                                    
                                 </Form>
+                                
                             </Col>
                         </Row>
                         <Row>
@@ -160,8 +199,22 @@ const CreateAudit = () => {
                             </Col>
                             <Col>                                
                                 {dropdownButton(data.auditTypes)}
+                                
                             </Col>                                
                         </Row>
+                        {(audit.auditType === "newAuditType")? 
+                            <Form>
+                                <Row>
+                                    <Col md="auto">
+                                        <Form.Label>Enter new audit type:</Form.Label>
+                                    </Col>
+                                    <Col>
+                                        <Form.Control type="input" name="newAuditType" placeholder="New audit type here" onChange={newAuditTypeUpdate}></Form.Control>
+                                    </Col>  
+                                </Row>                                  
+                            </Form>
+                            :<div />
+                        } 
                     </Col>                
                 </Row>
                 <hr/>
@@ -175,7 +228,7 @@ const CreateAudit = () => {
                                 <Row><Col xs={2}>Question Value</Col><Col xs={10}><Form.Control type="number" index={index} onChange={handleQuestionChange} name="value" placeholder="Question value, numbers only!" /></Col></Row>
                                 <Row><Col xs={2}>Requirement</Col><Col xs={10}><Form.Control type="text" index={index} onChange={handleQuestionChange} name="requirement" placeholder="Enter requirement source, OSHA code or ARC policy, for example" /></Col></Row>
                                 {audit.answers.map((answer, index)=>{
-                                    return(<div>Possible answer {index+1}<Form.Control type="text" index={index} name="answer" placeholder={answer} onChange={updateQuestion} /></div>);
+                                    return(<div key={index}>Possible answer {index+1}<Form.Control type="text" index={index} name="answer" placeholder={answer} onChange={updateQuestion} /></div>);
                                 })}
                                 <Button index={index} onClick={addAnswer}>Add Answer</Button>
                                 <hr />
