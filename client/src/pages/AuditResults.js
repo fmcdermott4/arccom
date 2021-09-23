@@ -31,17 +31,17 @@ const AuditResults = () => {
     const {loading, data} = useQuery(READ_FACILITIES);
     if(loading){
       return(<div>Loading...</div>)
-    } else{
+    } else{     
       return(
       <Form>
         <Form.Control as="select" name="facility" defaultValue="" onChange={handleSelect}>
         <option disabled key="" value="">Select Filter</option>
           {
-            data.facilities.map((facility=>{
+            data.facilities.map((facility) =>{
               return(
                 <option key={facility._id} value={facility._id}>{facility.name}</option>
               )
-            }))
+            })
           }
         </Form.Control>
       </Form>)
@@ -53,6 +53,7 @@ const AuditResults = () => {
     if(loading){
       return(<div>Loading...</div>)
     } else{
+      
       return(
       <Form>
         {/* {console.log(data.auditTypes)} */}
@@ -78,13 +79,24 @@ const AuditResults = () => {
     if(loading){
       return(<div>Loading...</div>)
     }else{
+      let uniqueNames = [...new Map(data.conductedAuditsFiltered.map((el)=>[el["name"], el])).values()];
+      uniqueNames.sort((a,b)=>(
+        (a.name.toLowerCase() > b.name.toLowerCase())? 1: -1
+      ))
+
+
+
+
+      // conductedAuditsFiltered.sort((a,b)=>(
+      //   (a.dateConducted > b.dateConducted)? 1:-1
+      // )).reverse()
       return(
       <Form>
         {/* {console.log(data.auditTypes)} */}
         <Form.Control as="select" name="name" defaultValue="" onChange={handleSelect}>
         <option disabled key="" value="">Select Filter</option>
           {
-            data.conductedAuditsFiltered.map((auditType=>{
+            uniqueNames.map((auditType=>{
               return(
                 <option key={auditType._id} value={auditType.name}>{auditType.name}</option>
               )
@@ -171,7 +183,7 @@ const TableBody = (filters) =>{
       }
     }
     let fraction = numerator + " / " + denominator;
-    return(<td>{fraction}</td>)
+    return(fraction)
   }
 
   if(loading){
@@ -188,9 +200,8 @@ const TableBody = (filters) =>{
   return(
     <tbody>
     {conductedAuditsFiltered.map((conductedAudit)=>{
-      // console.log(conductedAudit)
       return(
-        <tr>
+        <tr key={conductedAudit._id}>
           <td>
             {conductedAudit.facility.name}
           </td>
@@ -203,11 +214,11 @@ const TableBody = (filters) =>{
           <td>
             {conductedAudit.dateConducted}
           </td>
-          
+          <td>
             {
               auditResult(conductedAudit.questions)
             }
-          
+          </td>
         </tr>
       )
     })
