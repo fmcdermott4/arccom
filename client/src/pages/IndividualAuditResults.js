@@ -3,7 +3,7 @@ import { useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 import {READ_CONDUCTED_AUDIT} from '../utils/queries';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 
 const IndividualAuditResults = () => {
     const {conductedAuditId} = useParams();
@@ -58,22 +58,28 @@ const IndividualAuditResults = () => {
             <div>
                 {data.conductedAudit.questions.map((question, index)=>{
                     return(
-                        <div>
+                        <div key={index}>
                             <Row>                            
                                 Question {index + 1}: {question.question}                            
                             </Row>
                             <Row>
                                 Result: {question.answerGiven}
                             </Row>
-                            <Row>{console.log(question)}
+                            <Row>
                                 Value: {auditResult([question])}
                             </Row>
+                            {(question.requirement)?
                             <Row>
                                 Requirement: {question.requirement}
-                            </Row>
-                            <Row>
-                                Comments: {question.comment}
-                            </Row>
+                            </Row>:<div/>
+                            }
+                            {(question.comment)?
+                                <Row>
+                                    Comments: {question.comment}
+                                </Row>:<div/>                                
+                            }                            
+                            
+                            <hr/>
                         </div>
                     )
                 })}

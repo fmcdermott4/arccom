@@ -25,7 +25,6 @@ const conductedAuditSchema = new Schema({
             requirement: {
                 type: String,
                 trim: true,
-                required: true,
                 default:"No documented requirement"
             },
             question: {
@@ -62,7 +61,6 @@ const conductedAuditSchema = new Schema({
             comment: {
                 type: String,
                 trim: true,
-                required:true,
                 default:"No comments"
             }            
         }

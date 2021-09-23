@@ -100,6 +100,7 @@ const CreateAudit = () => {
         setAuditType({
             ...audit
         })
+        console.log(audit)
     };
 
     const [createAuditToConduct, {error}] = useMutation(CREATE_AUDIT_TO_CONDUCT);
@@ -138,9 +139,6 @@ const CreateAudit = () => {
 
         }else if(audit.auditType ==="newAuditType" && !newAuditType){
             alert("Please name your new audit type");
-            return
-        } else{
-            alert("Be sure to fill out required fields")
             return
         }
 
