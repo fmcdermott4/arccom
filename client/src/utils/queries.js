@@ -155,8 +155,8 @@ export const READ_CONDUCTED_AUDITS = gql`
     }
 `;
 export const READ_CONDUCTED_AUDITS_FILTERED = gql`
-    query conductedAuditsFiltered($id:ID, $facility:ID){
-        conductedAuditsFiltered(id:$id, facility:$facility){
+    query conductedAuditsFiltered($id:ID, $facility:ID, $auditType:ID){
+        conductedAuditsFiltered(id:$id, facility:$facility, auditType:$auditType){
         _id
         name
         facility{

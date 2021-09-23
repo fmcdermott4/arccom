@@ -31,13 +31,16 @@ const resolvers = {
         conductedAudits: async () =>{
             return await ConductedAudit.find().populate("conductedBy auditType facility")
         },  
-        conductedAuditsFiltered: async(parent, {id, facility}) =>{
+        conductedAuditsFiltered: async(parent, {id, facility, auditType}) =>{
             const auditFilters = {};
             if( id !== undefined){
                 auditFilters._id = id
             };
             if( facility !== undefined){
                 auditFilters.facility = facility
+            };
+            if( auditType !== undefined){
+                auditFilters.auditType = auditType
             }
             return await ConductedAudit.find(auditFilters).populate("conductedBy auditType facility")
         },      

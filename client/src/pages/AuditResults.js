@@ -1,81 +1,182 @@
 import React, {useState} from 'react';
 import {useQuery} from '@apollo/client';
-import {READ_CONDUCTED_AUDITS_FILTERED, READ_FACILITIES} from '../utils/queries';
-import Row from 'react-bootstrap/Row';
+import {READ_CONDUCTED_AUDITS_FILTERED, READ_FACILITIES, READ_AUDIT_TYPES} from '../utils/queries';
+// import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
+// import { useTable } from 'react-table';
 
 
 
+const AuditResults = () => {  
 
-const AuditResults = () => {
+  const handleSelect = (event)=>{
+    // console.log(event.target.value);
+    const {name, value} = event.target;
+    // console.log( name + " " + value);
+    updateFilters({
+      ...filters,
+      [name]: value
+    });
+  };
+
+
   
-  
-  
-  
-  return<div>Hello</div>
+
+  const [filters, updateFilters] = useState({});
+
+  const FacilityDropdown = () =>{
+    const {loading, data} = useQuery(READ_FACILITIES);
+    if(loading){
+      return(<div>Loading...</div>)
+    } else{
+      return(
+      <Form>
+        <Form.Control as="select" name="facility" defaultValue="" onChange={handleSelect}>
+        <option disabled key="" value="">Select Filter</option>
+          {
+            data.facilities.map((facility=>{
+              return(
+                <option key={facility._id} value={facility._id}>{facility.name}</option>
+              )
+            }))
+          }
+        </Form.Control>
+      </Form>)
+    }
+  }
+
+  const AuditTypesDropdown = () =>{
+    const {loading, data} = useQuery(READ_AUDIT_TYPES);
+    if(loading){
+      return(<div>Loading...</div>)
+    } else{
+      return(
+      <Form>
+        {/* {console.log(data.auditTypes)} */}
+        <Form.Control as="select" name="auditType" defaultValue="" onChange={handleSelect}>
+        <option disabled key="" value="">Select Filter</option>
+          {
+            data.auditTypes.map((auditType=>{
+              return(
+                <option key={auditType._id} value={auditType._id}>{auditType.name}</option>
+              )
+            }))
+          }
+        </Form.Control>
+      </Form>)
+    }
+  }
+
+  return (
+    <main>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Facility</th>
+            <th>Audit Type</th>
+            <th>Audit Name</th>
+            <th>Date Conducted</th>
+            <th>Result</th>
+          </tr>
+          <tr>
+              <th>
+                <FacilityDropdown />
+              </th>
+              <th>
+                <AuditTypesDropdown />
+              </th>
+            </tr>
+        </thead>
+        <TableBody filters={filters} />
+        {/* <tbody>
+            {data.conductedAuditsFiltered.map((conductedAudit)=>{
+              console.log(conductedAudit)
+              return(
+                <tr>
+                  <td>
+                    {conductedAudit.facility.name}
+                  </td>
+                  <td>
+                    {conductedAudit.auditType.name}
+                  </td>
+                  <td>
+                    {conductedAudit.name}
+                  </td>
+                  <td>
+                    {conductedAudit.dateConducted}
+                  </td>
+                </tr>
+              )
+            })
+          }
+        </tbody> */}
+      </Table>
+      
+      
+      
+    </main>
+  );
+};
+
+const TableBody = (filters) =>{
+  let filt = filters.filters;
+  const {data, loading} = useQuery(READ_CONDUCTED_AUDITS_FILTERED,
+      {
+        variables: filt,
+      }
+    );
+
+  const auditResult = (questions) =>{
+    // console.log(questions)
+    let numerator = 0;
+    let denominator = 0;
+
+    for(let i=0; i<questions.length; i++){
+      if(questions[i].answerGiven === questions[i].correctAnswer && questions[i].answerGiven.toLowerCase !== "n/a"){
+        numerator++
+      }
+      if(questions[i].answerGiven.toLowerCase !== "n/a" || questions[i].correctAnswer.toLowerCase !== "n/a"){
+        denominator++;
+      }
+    }
+
+    return(`${numerator} / ${denominator}`)
+  }
+
+  if(loading){
+    return<tbody>Loading...</tbody>
+  }
+  return(
+    <tbody>
+    {data.conductedAuditsFiltered.map((conductedAudit)=>{
+      // console.log(conductedAudit)
+      return(
+        <tr>
+          <td>
+            {conductedAudit.facility.name}
+          </td>
+          <td>
+            {conductedAudit.auditType.name}
+          </td>
+          <td>
+            {conductedAudit.name}
+          </td>
+          <td>
+            {conductedAudit.dateConducted}
+          </td>
+          <td>
+            {
+              auditResult(conductedAudit.questions)
+            }
+          </td>
+        </tr>
+      )
+    })
+  }
+</tbody>
+    )
 }
 
-// const handleSelect = (event)=>{
-//     console.log(event.target.name)
-//   }
-
-
-// const AuditResults = () => {
-
-//   const {data, loading, refetch} = useQuery(READ_CONDUCTED_AUDITS_FILTERED);
-//   const [filters, updateFilters] = useState({    
-//   });
-
-//   if(loading){
-//     return<div>Loading...</div>
-//   }
-//   return (
-//     <main>
-//       {/* {console.log(data)} */}
-//       {/* <Row><button onClick={()=>{getAudits(); updateFilters()}}>Click Me</button></Row> */}
-//       <Table striped bordered hover>
-//         <thead>
-//           <tr>
-//             <th>Facility</th>
-//             <th>Audit Type</th>
-//             <th>Date Conducted</th>
-//             <th>Result</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           <tr>
-//             <td>
-//               <FacilitiesDropdown />
-//             </td>
-//           </tr>
-//         </tbody>
-//       </Table>
-      
-      
-      
-//     </main>
-//   );
-// };
-
-
-// const FacilitiesDropdown = () =>{
-//   const {loading, data} = useQuery(READ_FACILITIES);
-
-//   if(loading){
-//     return<div>Loading...</div>
-//   }
-//   return(
-//     <Form name="facility" onChange={handleSelect} >
-//       <Form.Control as="select" name = "facility">
-//         {/* {console.log(data)} */}
-//         {data.facilities.map((facility)=>{
-//           // console.log(facility);
-//           return(<option key={facility._id} value={facility._id}>{facility.name}</option>)
-//         })}
-//       </Form.Control>
-//     </Form>
-//   )
-// }
 export default AuditResults;
