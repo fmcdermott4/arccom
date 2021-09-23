@@ -31,7 +31,7 @@ const resolvers = {
         conductedAudits: async () =>{
             return await ConductedAudit.find().populate("conductedBy auditType facility")
         },  
-        conductedAuditsFiltered: async(parent, {id, facility, auditType}) =>{
+        conductedAuditsFiltered: async(parent, {id, facility, auditType, name}) =>{
             const auditFilters = {};
             if( id !== undefined){
                 auditFilters._id = id
@@ -41,6 +41,9 @@ const resolvers = {
             };
             if( auditType !== undefined){
                 auditFilters.auditType = auditType
+            };
+            if( name !== undefined){
+                auditFilters.name = name
             }
             return await ConductedAudit.find(auditFilters).populate("conductedBy auditType facility")
         },      

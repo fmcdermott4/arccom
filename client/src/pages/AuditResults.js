@@ -19,6 +19,7 @@ const AuditResults = () => {
       ...filters,
       [name]: value
     });
+    console.log(filters)
   };
 
 
@@ -68,6 +69,31 @@ const AuditResults = () => {
       </Form>)
     }
   }
+  const AuditNamesDropdown = () =>{
+    const {data, loading} = useQuery(READ_CONDUCTED_AUDITS_FILTERED,
+      {
+        variables: filters,
+      }
+    );
+    if(loading){
+      return(<div>Loading...</div>)
+    }else{
+      return(
+      <Form>
+        {/* {console.log(data.auditTypes)} */}
+        <Form.Control as="select" name="name" defaultValue="" onChange={handleSelect}>
+        <option disabled key="" value="">Select Filter</option>
+          {
+            data.conductedAuditsFiltered.map((auditType=>{
+              return(
+                <option key={auditType._id} value={auditType.name}>{auditType.name}</option>
+              )
+            }))
+          }
+        </Form.Control>
+      </Form>)
+    }
+  }
 
   return (
     <main>
@@ -86,6 +112,9 @@ const AuditResults = () => {
               </th>
               <th>
                 <AuditTypesDropdown />
+              </th>
+              <th>
+                <AuditNamesDropdown />
               </th>
             </tr>
         </thead>
@@ -141,16 +170,24 @@ const TableBody = (filters) =>{
         denominator++;
       }
     }
-
-    return(`${numerator} / ${denominator}`)
+    let fraction = numerator + " / " + denominator;
+    return(<td>{fraction}</td>)
   }
 
   if(loading){
     return<tbody>Loading...</tbody>
   }
+  // data.conductedAudit.sort((a,b)=>(
+  //   (a.dateConducted > b.dateConducted) ? 1 : -1
+  // ))
+  let conductedAuditsFiltered = JSON.parse(JSON.stringify(data.conductedAuditsFiltered));
+  conductedAuditsFiltered.sort((a,b)=>(
+    (a.dateConducted > b.dateConducted)? 1:-1
+  )).reverse()
+  
   return(
     <tbody>
-    {data.conductedAuditsFiltered.map((conductedAudit)=>{
+    {conductedAuditsFiltered.map((conductedAudit)=>{
       // console.log(conductedAudit)
       return(
         <tr>
@@ -166,11 +203,11 @@ const TableBody = (filters) =>{
           <td>
             {conductedAudit.dateConducted}
           </td>
-          <td>
+          
             {
               auditResult(conductedAudit.questions)
             }
-          </td>
+          
         </tr>
       )
     })
