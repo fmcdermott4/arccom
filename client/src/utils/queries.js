@@ -108,6 +108,10 @@ export const READ_CONDUCTED_AUDIT = gql`
                 _id
                 name
             }
+            facility{
+                _id
+                name
+            }
             dateConducted
             questions{
                 _id

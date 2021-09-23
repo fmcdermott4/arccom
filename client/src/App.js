@@ -15,6 +15,7 @@ import ConductAudit from './pages/ConductAudit';
 import CreateAudit from './pages/CreateAudit';
 import DeleteAudit from './pages/DeleteAudit';
 import Home from './pages/Home';
+import IndividualAuditResults from './pages/IndividualAuditResults';
 import Login from './pages/Login';
 import SelectAuditToConduct from './pages/SelectAuditToConduct';
 import Signup from './pages/Signup';
@@ -97,6 +98,9 @@ const App = ()=> {
                 </Route>
                 <Route exact path="/audits/auditresults">
                   <AuditResults />
+                </Route>
+                <Route exact path="/audits/auditresults/:conductedAuditId">
+                  <IndividualAuditResults />
                 </Route>
                 <Route exact path="/audits/updateaudit">
                   <UpdateAudit />

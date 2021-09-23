@@ -131,28 +131,6 @@ const AuditResults = () => {
             </tr>
         </thead>
         <TableBody filters={filters} />
-        {/* <tbody>
-            {data.conductedAuditsFiltered.map((conductedAudit)=>{
-              console.log(conductedAudit)
-              return(
-                <tr>
-                  <td>
-                    {conductedAudit.facility.name}
-                  </td>
-                  <td>
-                    {conductedAudit.auditType.name}
-                  </td>
-                  <td>
-                    {conductedAudit.name}
-                  </td>
-                  <td>
-                    {conductedAudit.dateConducted}
-                  </td>
-                </tr>
-              )
-            })
-          }
-        </tbody> */}
       </Table>
       
       
@@ -169,21 +147,23 @@ const TableBody = (filters) =>{
       }
     );
 
-  const auditResult = (questions) =>{
+  const auditResult = (questions, id) =>{
     // console.log(questions)
     let numerator = 0;
     let denominator = 0;
 
     for(let i=0; i<questions.length; i++){
-      if(questions[i].answerGiven === questions[i].correctAnswer && questions[i].answerGiven.toLowerCase !== "n/a"){
-        numerator++
+      if(questions[i].answerGiven === questions[i].correctAnswer && questions[i].answerGiven.toLowerCase() !== "n/a"){
+        let value = parseInt(questions[i].value)
+        numerator+= value
       }
-      if(questions[i].answerGiven.toLowerCase !== "n/a" || questions[i].correctAnswer.toLowerCase !== "n/a"){
-        denominator++;
+      if(questions[i].answerGiven.toLowerCase() !== "n/a" && questions[i].correctAnswer.toLowerCase() !== "n/a"){
+        let value = parseInt(questions[i].value)
+        denominator+= value
       }
     }
     let fraction = numerator + " / " + denominator;
-    return(fraction)
+    return(<a href={"/audits/auditresults/" + id}>{fraction}</a>)
   }
 
   if(loading){
@@ -193,38 +173,22 @@ const TableBody = (filters) =>{
   //   (a.dateConducted > b.dateConducted) ? 1 : -1
   // ))
   let conductedAuditsFiltered = JSON.parse(JSON.stringify(data.conductedAuditsFiltered));
-  conductedAuditsFiltered.sort((a,b)=>(
-    (a.dateConducted > b.dateConducted)? 1:-1
-  )).reverse()
+  conductedAuditsFiltered.sort((a,b)=>((a.dateConducted > b.dateConducted)? 1:-1)).reverse()
   
-  return(
-    <tbody>
-    {conductedAuditsFiltered.map((conductedAudit)=>{
-      return(
-        <tr key={conductedAudit._id}>
-          <td>
-            {conductedAudit.facility.name}
-          </td>
-          <td>
-            {conductedAudit.auditType.name}
-          </td>
-          <td>
-            {conductedAudit.name}
-          </td>
-          <td>
-            {conductedAudit.dateConducted}
-          </td>
-          <td>
-            {
-              auditResult(conductedAudit.questions)
-            }
-          </td>
-        </tr>
-      )
-    })
-  }
-</tbody>
-    )
+  return(    
+      <tbody>{conductedAuditsFiltered.map((conductedAudit)=>{
+        return(
+          <tr key={conductedAudit._id}>
+            <td>{conductedAudit.facility.name}</td>
+            <td>{conductedAudit.auditType.name}</td>
+            <td>{conductedAudit.name}</td>
+            <td>{conductedAudit.dateConducted}</td>
+            <td>{auditResult(conductedAudit.questions, conductedAudit._id)}</td>
+            </tr>
+        )
+      })
+    }</tbody>  
+  )
 }
 
 export default AuditResults;
