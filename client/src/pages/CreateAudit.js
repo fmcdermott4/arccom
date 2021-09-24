@@ -119,30 +119,25 @@ const CreateAudit = () => {
         let newAuditTypeData={};
         
         if(audit.auditType ==="newAuditType" && newAuditType && audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
-            try{
+            try{            
                 newAuditTypeData = await createNewAuditType({
-                    variables: {...newAuditType}
-                }).then(alert("New audit type successfull created")).then(setAuditType({
-            ...audit,
-            auditType: newAuditTypeData._id
-        }))
+                variables: {...newAuditType}
+                }).then(alert("New audit type successfull created"))                         
             } catch(e){
                 console.log(e)
             }
-            try{                
-                await createAuditToConduct({
-                    variables: {...audit}
-                }).then(alert("Successfully submitted")).then(history.push("/"))
-            } catch(e){
-                console.log(e)
-            }
-
+            finally{          
+                    await createAuditToConduct({
+                        variables: {...audit, auditType: newAuditTypeData.data.createAuditType._id}
+                    }).then(alert("Successfully submitted")).then(history.push("/"))
+                    return
+            }            
         }else if(audit.auditType ==="newAuditType" && !newAuditType){
             alert("Please name your new audit type");
             return
         }
 
-        if(audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
+        else if(audit.name !== "" && audit.auditType !== "" && audit.questions !== []){
             try{                
                 await createAuditToConduct({
                     variables: {...audit}

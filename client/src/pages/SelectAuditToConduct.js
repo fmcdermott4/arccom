@@ -98,9 +98,6 @@ const SelectAuditFromTypes = (auditType) =>{
             </Row>
         </Form>
     )
-    
-
-    
 }
 
 export default SelectAuditToConduct;
