@@ -14,7 +14,7 @@ import AuditResults from './pages/AuditResults';
 import ConductAudit from './pages/ConductAudit';
 import CreateAudit from './pages/CreateAudit';
 import DeleteAudit from './pages/DeleteAudit';
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import IndividualAuditResults from './pages/IndividualAuditResults';
 import Login from './pages/Login';
 import SelectAuditToConduct from './pages/SelectAuditToConduct';

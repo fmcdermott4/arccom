@@ -128,11 +128,11 @@ const Audit = (auditData) => {
                 <Form.Control as="select" name="facility" defaultValue="" onChange={updateFacility}>
                     <option disabled key="" value="">Select Answer</option>
                     {
-                        data.facilities.map((facility=>{
+                        data.facilities.map((facility)=>{
                             return(
                                 <option key={facility._id} value={facility._id}>{facility.name}</option>
                             )
-                        }))
+                        })
                     }
                 </Form.Control>
                 </Col>

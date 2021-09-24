@@ -67,15 +67,15 @@ export const CREATE_PROFILE = gql`
     }
 `;
 export const LOGIN_USER = gql`
-  mutation login($email:String!, $password:String!) {
-    login(email:$email, password:$password) {
-      token
-      profile {
-        _id
-        name
-      }
+    mutation login($email:String!, $password:String!) {
+        login(email:$email, password:$password) {
+        token
+        profile {
+            _id
+            name
+        }
+        }
     }
-  }
 `;
 // UPDATE Mutations
 // UPDATE Mutations
@@ -95,14 +95,6 @@ export const UPDATE_AUDIT_TO_CONDUCT=gql`
     mutation updateAuditToConduct($id:ID, $name:String, $auditType:ID){
         updateAuditToConduct(id:$id, name:$name, auditType:$auditType){
             _id
-            name
-            auditType{
-                _id
-                name
-            }
-            questions{
-                _id
-            }
         }
     }
 `;
