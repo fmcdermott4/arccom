@@ -78,7 +78,6 @@ const SelectAuditFromTypes = (auditType) =>{
     }
     return(
         <Form>
-            {console.log(auditToConduct)}
             <Form.Label>Select Audit</Form.Label>
             <Form.Group as={Row}>
                 <Form.Control as="select" onChange={handleSelect} defaultValue="">

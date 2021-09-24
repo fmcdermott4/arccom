@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 
 
-const SelectAuditToUpdate = () => {
+const SelectAuditToDelete = () => {
     
     const [auditType, setAuditType] = useState(null);
 
@@ -78,7 +78,6 @@ const SelectAuditFromTypes = (auditType) =>{
     }
     return(
         <Form>
-            {console.log(auditToConduct)}
             <Form.Label>Select Audit</Form.Label>
             <Form.Group as={Row}>
                 <Form.Control as="select" onChange={handleSelect} defaultValue="">
@@ -100,4 +99,4 @@ const SelectAuditFromTypes = (auditType) =>{
     )
 }
 
-export default SelectAuditToUpdate;
+export default SelectAuditToDelete;

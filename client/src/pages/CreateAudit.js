@@ -39,7 +39,7 @@ const CreateAudit = () => {
                 return(<option key={audit._id} value={audit._id}>{audit.name}</option>)
             }))
         }                
-        return(<Form><Form.Control as="select" defaultValue="OSHA" name="auditType" onChange={handleChange}>{button(auditTypes)}<option key="newAuditType" value="newAuditType">New Audit Type</option></Form.Control></Form>)
+        return(<Form><Form.Control as="select" defaultValue="" name="auditType" onChange={handleChange}><option disabled >Choose audit type</option>{button(auditTypes)}<option key="newAuditType" value="newAuditType">New Audit Type</option></Form.Control></Form>)
     };
 
     // Add question to the page

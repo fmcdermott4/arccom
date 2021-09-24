@@ -18,6 +18,7 @@ import Home from './pages/Home';
 import IndividualAuditResults from './pages/IndividualAuditResults';
 import Login from './pages/Login';
 import SelectAuditToConduct from './pages/SelectAuditToConduct';
+import SelectAuditToUpdate from './pages/SelectAuditToUpdate';
 import Signup from './pages/Signup';
 import UpdateAudit from './pages/UpdateAudit'
 
@@ -102,7 +103,10 @@ const App = ()=> {
                 <Route exact path="/audits/auditresults/:conductedAuditId">
                   <IndividualAuditResults />
                 </Route>
-                <Route exact path="/audits/updateaudit">
+                <Route exact path ="/audits/updateaudit/">
+                  <SelectAuditToUpdate />
+                </Route>
+                <Route exact path="/audits/updateaudit/:auditId">
                   <UpdateAudit />
                 </Route>
                 <Route exact path="/audits/deleteaudit">
