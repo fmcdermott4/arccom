@@ -169,9 +169,7 @@ const TableBody = (filters) =>{
   if(loading){
     return<tbody>Loading...</tbody>
   }
-  // data.conductedAudit.sort((a,b)=>(
-  //   (a.dateConducted > b.dateConducted) ? 1 : -1
-  // ))
+  
   let conductedAuditsFiltered = JSON.parse(JSON.stringify(data.conductedAuditsFiltered));
   conductedAuditsFiltered.sort((a,b)=>((a.dateConducted > b.dateConducted)? 1:-1)).reverse()
   
@@ -180,7 +178,8 @@ const TableBody = (filters) =>{
         return(
           <tr key={conductedAudit._id}>
             <td>{conductedAudit.facility.name}</td>
-            <td>{conductedAudit.auditType.name}</td>
+            <td>{(conductedAudit.auditType !== null)? <div>{conductedAudit.auditType.name}</div> : <div>N/A</div>}</td>
+            
             <td>{conductedAudit.name}</td>
             <td>{conductedAudit.dateConducted}</td>
             <td>{auditResult(conductedAudit.questions, conductedAudit._id)}</td>
