@@ -159,16 +159,21 @@ const SelectAuditFromTypes = (auditType) =>{
                 
                 :<div />}
             </Row>
+            <br/>
             <Row>
               <Col md="auto">
                 <Form.Label>Type audit type to delete here</Form.Label>
               </Col>
               <Col>
               {/* {console.log(auditType.data)} */}
-                <Form.Control md="auto" name={auditType.data.name} onChange={handleDeleteAuditTypeText} input="text" placeholder={"Type " + auditType.data.name + " here"}></Form.Control>
+                                <Form.Control md="auto" name={auditType.data.name} onChange={handleDeleteAuditTypeText} input="text" placeholder={"Type " + auditType.data.name + " here"}></Form.Control>
+              <Form.Text>
+                **This will delete the audit type and all the associated audits**
+              </Form.Text>
+
               </Col>
               <Col>
-                {(auditType.data.name === auditTypeToDelete.name)? <Button onClick={deleteAuditType}>Click me to delete {auditType.data.name}</Button>:<div>No Match</div>}
+                {(auditType.data.name === auditTypeToDelete.name)? <Button onClick={deleteAuditType}>Click me to delete {auditType.data.name}</Button>:<div />}
               </Col>
             </Row>
         </Form>

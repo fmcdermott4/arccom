@@ -80,7 +80,7 @@ const App = ()=> {
             <div className="container">
               <Switch>
                 <Route exact path="/">
-                  <Home />
+                  <AuditResults />
                 </Route>
                 <Route exact path="/login">
                   <Login />
