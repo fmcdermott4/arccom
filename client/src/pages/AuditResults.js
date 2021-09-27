@@ -177,8 +177,7 @@ const TableBody = (filters) =>{
         return(
           <tr key={conductedAudit._id}>
             <td>{conductedAudit.facility.name}</td>
-            <td>{(conductedAudit.auditType !== null)? <div>{conductedAudit.auditType.name}</div> : <div>N/A</div>}</td>
-            
+            <td>{(conductedAudit.auditType !== null)?<div>{conductedAudit.auditType.name}</div>:<div>N/A</div>}</td>
             <td>{conductedAudit.name}</td>
             <td>{conductedAudit.dateConducted}</td>
             <td>{auditResult(conductedAudit.questions, conductedAudit._id)}</td>
