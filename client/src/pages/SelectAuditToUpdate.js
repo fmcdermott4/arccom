@@ -24,6 +24,7 @@ const SelectAuditToUpdate = () => {
     
     const auditTypeButton = (auditType) =>{        
         return(
+          
             <Form>
                 <Form.Group as={Row}>
                     <Form.Control as="select" onChange={handleSelect} defaultValue="">
@@ -38,6 +39,7 @@ const SelectAuditToUpdate = () => {
                     </Form.Control>
                 </Form.Group>
             </Form>
+            
         )
     }
 
@@ -46,6 +48,8 @@ const SelectAuditToUpdate = () => {
     }
     return(
         <div>
+          <h3>Please select audit to update</h3>
+          <hr/>
             Select audit type {auditTypeButton(data.auditTypes)}
             {(auditType)?<SelectAuditFromTypes data={auditType} /> : <div />}
         </div>
@@ -78,7 +82,6 @@ const SelectAuditFromTypes = (auditType) =>{
     }
     return(
         <Form>
-            {console.log(auditToConduct)}
             <Form.Label>Select Audit</Form.Label>
             <Form.Group as={Row}>
                 <Form.Control as="select" onChange={handleSelect} defaultValue="">

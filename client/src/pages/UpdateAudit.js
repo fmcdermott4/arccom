@@ -8,15 +8,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import {UPDATE_AUDIT_TO_CONDUCT} from '../utils/mutations';
+import { useHistory} from 'react-router-dom';
 
 const UpdateAudit = () => {
   const {auditId} = useParams();
-  const { loading, data, error } = useQuery(READ_AUDIT_TO_CONDUCT, 
+  const { loading, data} = useQuery(READ_AUDIT_TO_CONDUCT, 
     {variables: 
         {"id": auditId},
     }
   );
-  const[auditToUpdate, changeAuditToUpdate] = useState() 
+  
+  // const[auditToUpdate, changeAuditToUpdate] = useState() 
+  
   if(loading){
     return(<div>Loading...</div>)
   }
@@ -29,7 +32,7 @@ const UpdateAudit = () => {
 
 const Audit = (data)=>{
 const [updatedAudit, setUpdatedAudit] =useState({name: data.data.name, id: data.data._id, auditType: data.data.auditType._id});  
-
+const history = useHistory();
 const handleChange = (event) =>{
   const {name, value} = event.target;
   setUpdatedAudit({
@@ -65,11 +68,10 @@ const [updateAuditToConduct] = useMutation(UPDATE_AUDIT_TO_CONDUCT);
 const submitChanges = async (event) =>{
   
   event.preventDefault();
-  console.log(updatedAudit)
   try{
     await updateAuditToConduct({
       variables: {...updatedAudit}
-    })
+    }).then(alert("Successfully updated " + data.data.name + " to " + updatedAudit.name)).then(history.push("/audits/updateaudit"))
   }catch(e){
     console.log(e)
   }
@@ -77,7 +79,7 @@ const submitChanges = async (event) =>{
 
 return(
     <div>
-      <h3>Make changes to {updatedAudit.name} on this page</h3>
+      <h3>Make changes to {data.data.name} on this page</h3>
       <Form>
         <Form.Label>Audit Name</Form.Label>
           <Form.Control type="text" key="name" name="name" placeholder={updatedAudit.name} onChange={handleChange} /> 

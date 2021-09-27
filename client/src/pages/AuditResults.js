@@ -19,7 +19,6 @@ const AuditResults = () => {
       ...filters,
       [name]: value
     });
-    console.log(filters)
   };
 
 
