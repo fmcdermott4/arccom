@@ -3,7 +3,7 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  createHttpLink
+  createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -50,7 +50,7 @@ const client = new ApolloClient({
 });
 
 const App = ()=> {
-
+  
   if(!Auth.loggedIn()){
     return(
       <ApolloProvider client={client}>
@@ -70,7 +70,8 @@ const App = ()=> {
         </Router>
       </ApolloProvider>
     )
-  }
+  } 
+  
   return (
     <ApolloProvider client={client}>
         <Router>

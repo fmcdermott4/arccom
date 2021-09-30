@@ -23,14 +23,16 @@ const SelectAuditToUpdate = () => {
     }
     
     const auditTypeButton = (auditType) =>{        
+        const manipulateArray = JSON.parse(JSON.stringify(auditType));  
+        const sortProperty = "name";
+        manipulateArray.sort((a, b) => (a[sortProperty] > b[sortProperty])? 1 : -1)
         return(
-          
             <Form>
                 <Form.Group as={Row}>
                     <Form.Control as="select" onChange={handleSelect} defaultValue="">
                     <option disabled key="" value="">Select One</option>
                         {
-                            auditType.map((audit)=>{
+                            manipulateArray.map((audit)=>{
                                 return(
                                     <option name={audit._id} key={audit.name} value={audit._id}>{audit.name}</option>
                                 )
@@ -80,6 +82,10 @@ const SelectAuditFromTypes = (auditType) =>{
     if(error || data.auditsToConductByAuditType.length === 0){
         return<div></div>
     }
+
+    const sortedArray = JSON.parse(JSON.stringify(data.auditsToConductByAuditType));
+    sortedArray.sort((a, b) =>(a.name > b.name)? 1: -1);
+
     return(
         <Form>
             <Form.Label>Select Audit</Form.Label>
@@ -87,7 +93,7 @@ const SelectAuditFromTypes = (auditType) =>{
                 <Form.Control as="select" onChange={handleSelect} defaultValue="">
                     <option disabled key="" value="">Select One</option>                        
                     {
-                        data.auditsToConductByAuditType.map((audit)=>{
+                        sortedArray.map((audit)=>{
                             return(
                                 <option name={audit._id} key={audit.name} value={audit._id}>{audit.name}</option>
                             )

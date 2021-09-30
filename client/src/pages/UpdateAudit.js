@@ -31,7 +31,7 @@ const UpdateAudit = () => {
 };
 
 const Audit = (data)=>{
-const [updatedAudit, setUpdatedAudit] =useState({name: data.data.name, id: data.data._id, auditType: data.data.auditType._id});  
+const [updatedAudit, setUpdatedAudit] =useState({name: data.data.name, id: data.data._id, auditType: data.data.auditType._id, questions: data.data.questions});  
 const history = useHistory();
 const handleChange = (event) =>{
   const {name, value} = event.target;
@@ -39,6 +39,7 @@ const handleChange = (event) =>{
     ...updatedAudit,
     [name] : value
   })
+  console.log(updatedAudit)
 }
 
 const AuditTypesButton = () =>{
@@ -65,6 +66,25 @@ const AuditTypesButton = () =>{
 }
 const [updateAuditToConduct] = useMutation(UPDATE_AUDIT_TO_CONDUCT);
 
+
+
+const updateQuestion = (event)=>{
+  const {name, value} = event.target;
+  // console.log(event.target.parentElement.parentElement.parentElement.attributes[0].value)
+  // console.log(name + " " + value);
+  const index = event.target.parentElement.parentElement.parentElement.attributes[0].value;
+  const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
+  if(name === "question"){
+    auditToUpdate.questions[index].question = value;
+    // console.log(index)
+  }
+  if(name==="value"){
+    auditToUpdate.questions[index].value = value;
+  }
+  // auditToUpdate[index].name = value;
+  console.log(auditToUpdate)
+}
+
 const submitChanges = async (event) =>{
   
   event.preventDefault();
@@ -85,6 +105,35 @@ return(
           <Form.Control type="text" key="name" name="name" placeholder={updatedAudit.name} onChange={handleChange} /> 
         <Form.Label>Audit Type</Form.Label>
           <AuditTypesButton />
+        
+          {data.data.questions.map((question, index)=>{
+            // console.log(question);
+            return(
+              <div key={index} id={index} onChange={updateQuestion}>
+                <h4>Question {index+1}</h4>
+                <Row>
+                  <Col md="auto">Question: </Col>
+                  <Col><Form.Control type="text" name="question" id={index} placeholder={data.data.questions[index].question} /></Col>
+                </Row>
+                <Row>
+                  <Col md="auto">
+                    Question value:
+                  </Col>
+                  <Col>
+                    <Form.Control type="number" name="value" placeholder={data.data.questions[index].value + " (numbers only)"} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="auto">
+                   Correct answer:
+                  </Col>
+                  <Col>
+                    <Form.Control type="text" name="correctAnswer" placeholder={data.data.questions[index].correctAnswer} />
+                  </Col>
+                </Row>
+              </div>
+            )
+          })}
       </Form>
       <hr/>
       <Container>

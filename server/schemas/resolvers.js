@@ -54,7 +54,8 @@ const resolvers = {
             return await Facility.findOne({_id:id});
         },
         profiles: async () => {
-            return Profile.find({}).populate("access");
+            return Profile.find({})
+            // populate("access");
         },
         profile: async (parent, {id}) => {
             return Profile.findOne({ _id: id }).populate("access");
