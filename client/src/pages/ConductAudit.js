@@ -117,7 +117,8 @@ const Audit = (auditData) => {
     if(loading){
         return<div>Loading...</div>
     }
-    
+    const sortedFacility = JSON.parse(JSON.stringify(data.facilities));
+    sortedFacility.sort((a, b)=>(a.name>b.name)? 1: -1)
     return(
     <div>
         {   <Row>
@@ -128,7 +129,7 @@ const Audit = (auditData) => {
                 <Form.Control as="select" name="facility" defaultValue="" onChange={updateFacility}>
                     <option disabled key="" value="">Select Answer</option>
                     {
-                        data.facilities.map((facility)=>{
+                        sortedFacility.map((facility)=>{
                             return(
                                 <option key={facility._id} value={facility._id}>{facility.name}</option>
                             )
@@ -143,8 +144,7 @@ const Audit = (auditData) => {
                 return(
                     <div key={question._id}>
                         <hr/>
-                        Question {index+1}:
-                        <br/>
+                        <h5>Question {index+1}:</h5>
                         <Form.Label>
                             {question.question}
                         </Form.Label>
