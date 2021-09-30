@@ -105,17 +105,32 @@ const updateQuestion = (event)=>{
   })
   // console.log(updatedAudit)
 }
+const addQuestion = (event) =>{
+    const question = {answerGiven : "", comment: "", requirement : "", question: "", value: 0, correctAnswer:"", answers:["yes", "no"]};
+  const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
+  auditToUpdate.questions.push(question);
+  setUpdatedAudit({
+    ...auditToUpdate
+  })
+}
+const deleteAnswer = (event)=>{
+    const answerArrayIndex = event.target.parentElement.parentElement.attributes[0].value;
+    const questionArrayIndex = event.target.parentElement.parentElement.parentElement.attributes[0].value;
+    console.log(answerArrayIndex + " " + questionArrayIndex)
+    const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
+    auditToUpdate.questions[questionArrayIndex].answers.splice(answerArrayIndex,1);
+    setUpdatedAudit({
+      ...auditToUpdate
+    })
+  }
 const deleteQuestion = (e) =>{
   const deleteIndex = e.target.parentElement.parentElement.parentElement.attributes[0].value;
   // console.log(e.target.parentElement.parentElement.parentElement.attributes[0].value)
   const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
   auditToUpdate.questions.splice(deleteIndex,1)
-  console.log(auditToUpdate);
   setUpdatedAudit({
     ...auditToUpdate
-  })
-  
-  
+  })  
 }
 const submitChanges = async (event) =>{
   
@@ -183,6 +198,11 @@ return(
                       <Col md="auto">
                         Answer {index+1}
                       </Col>
+                      <Col md="auto">
+                        <Button variant="danger" onClick={deleteAnswer}>
+                          Delete answer
+                        </Button>
+                      </Col>
                       <Col>
                         <Form.Control name="answer" type="text" placeholder={answer} />
                       </Col>                      
@@ -199,7 +219,7 @@ return(
       <Row className="justify-content-md-center">
           <Col xs lg="2"/>
           <Col md="auto">
-            <Button>Add Question</Button>
+            <Button onClick={addQuestion}>Add Question</Button>
           </Col>
           <Col xs lg="2"/>
         </Row>      
