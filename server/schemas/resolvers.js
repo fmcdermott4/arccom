@@ -118,13 +118,16 @@ const resolvers = {
         updateAuditType: async (parent, {id, name})=>{
             return await AuditType.findOneAndUpdate({_id: id},{name: name});
         },
-        updateAuditToConduct: async(parent, {id, name, auditType}) =>{
+        updateAuditToConduct: async(parent, {id, name, auditType, questions}) =>{
             const changeData = {};
             if(name !== undefined){
                 changeData.name = name
             }
             if(auditType !== undefined){
                 changeData.auditType = auditType
+            } 
+            if(questions !== undefined){
+                changeData.questions = questions;
             }
 
             return await AuditToConduct.findOneAndUpdate({_id: id}, changeData)

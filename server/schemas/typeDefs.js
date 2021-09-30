@@ -82,7 +82,7 @@ const typeDefs = gql`
         deleteProfile(id:ID):Profile        
         login(email: String!, password: String!): Auth
         updateAccess(id:ID, level:String):Access
-        updateAuditToConduct(id:ID, name:String, auditType:ID): AuditToConduct
+        updateAuditToConduct(id:ID, name:String, auditType:ID, questions:[AnsweredQuestion]): AuditToConduct
         updateAuditType(id:ID, name:String):[AuditType]
         updateConductedAudit(id:ID, name:String, conductedBy:ID, auditType:ID, dateConducted:String, questions:[AnsweredQuestion]):ConductedAudit
         updateFacility(id:ID, name:String):Facility
@@ -96,7 +96,7 @@ const typeDefs = gql`
         correctAnswer: String
         answerGiven: String
         answers:[String] 
-        comment:String       
+        comment:String   
     }
 `;
 module.exports = typeDefs;

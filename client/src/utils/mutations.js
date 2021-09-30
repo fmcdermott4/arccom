@@ -92,8 +92,8 @@ export const UPDATE_ACCESS = gql`
     }
 `;
 export const UPDATE_AUDIT_TO_CONDUCT=gql`
-    mutation updateAuditToConduct($id:ID, $name:String, $auditType:ID){
-        updateAuditToConduct(id:$id, name:$name, auditType:$auditType){
+    mutation updateAuditToConduct($id:ID, $name:String, $auditType:ID, $questions:[AnsweredQuestion]){
+        updateAuditToConduct(id:$id, name:$name, auditType:$auditType, questions:$questions){
             _id
         }
     }

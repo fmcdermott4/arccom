@@ -31,6 +31,7 @@ const UpdateAudit = () => {
 };
 
 const Audit = (data)=>{
+
 const [updatedAudit, setUpdatedAudit] =useState({name: data.data.name, id: data.data._id, auditType: data.data.auditType._id, questions: data.data.questions});  
 const history = useHistory();
 const handleChange = (event) =>{
@@ -39,7 +40,7 @@ const handleChange = (event) =>{
     ...updatedAudit,
     [name] : value
   })
-  console.log(updatedAudit)
+  // console.log(updatedAudit)
 }
 
 const AuditTypesButton = () =>{
@@ -94,14 +95,21 @@ const updateQuestion = (event)=>{
   setUpdatedAudit({
     ...auditToUpdate
   })
+  // console.log(updatedAudit)
 }
 
 const submitChanges = async (event) =>{
   
   event.preventDefault();
+
+  
+  const updatedAuditToSubmit = JSON.parse(JSON.stringify(updatedAudit));
+  for(let i=0; i<updatedAuditToSubmit.questions.length; i++){
+    delete updatedAuditToSubmit.questions[i].__typename;
+  }
   try{
     await updateAuditToConduct({
-      variables: {...updatedAudit}
+      variables: {...updatedAuditToSubmit}
     }).then(alert("Successfully updated " + data.data.name + " to " + updatedAudit.name)).then(history.push("/audits/updateaudit"))
   }catch(e){
     console.log(e)
