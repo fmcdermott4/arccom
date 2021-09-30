@@ -77,7 +77,6 @@ const Audit = (auditData) => {
         setAudit(
             auditToUpdate
         );
-        
     };
     const updateFacility = (event)=>{
         

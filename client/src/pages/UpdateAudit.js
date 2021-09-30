@@ -67,7 +67,15 @@ const AuditTypesButton = () =>{
 }
 const [updateAuditToConduct] = useMutation(UPDATE_AUDIT_TO_CONDUCT);
 
-
+const addAnswer = (event) =>{
+  
+  const questionArrayIndex = event.target.parentElement.attributes[0].value;
+  const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
+  auditToUpdate.questions[questionArrayIndex].answers.push("")
+  setUpdatedAudit({
+    ...auditToUpdate
+  })
+}
 
 const updateQuestion = (event)=>{
   const {name, value} = event.target;
@@ -97,7 +105,18 @@ const updateQuestion = (event)=>{
   })
   // console.log(updatedAudit)
 }
-
+const deleteQuestion = (e) =>{
+  const deleteIndex = e.target.parentElement.parentElement.parentElement.attributes[0].value;
+  // console.log(e.target.parentElement.parentElement.parentElement.attributes[0].value)
+  const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
+  auditToUpdate.questions.splice(deleteIndex,1)
+  console.log(auditToUpdate);
+  setUpdatedAudit({
+    ...auditToUpdate
+  })
+  
+  
+}
 const submitChanges = async (event) =>{
   
   event.preventDefault();
@@ -130,7 +149,14 @@ return(
             // console.log(question);
             return(
               <div key={index} id={index} onChange={updateQuestion}>
-                <h5>Question {index+1}</h5>
+                <Row md="auto">
+                  <Col md="auto">
+                    <h5>Question {index+1}</h5>
+                  </Col>
+                  <Col md="auto">
+                    <Button onClick={deleteQuestion} variant="danger">Delete Question {index+1}</Button>
+                  </Col>
+                </Row>
                 <Row>
                   <Col md="auto">Question: </Col>
                   <Col><Form.Control as="textarea" name="question" id={index} placeholder={question.question} /></Col>
@@ -161,13 +187,22 @@ return(
                         <Form.Control name="answer" type="text" placeholder={answer} />
                       </Col>                      
                     </Row>
+                    
                   )
                 })}
+                <Button onClick={addAnswer}>Add Answer</Button>
                 <br/>
               </div>
             )
           })}
       </Form>
+      <Row className="justify-content-md-center">
+          <Col xs lg="2"/>
+          <Col md="auto">
+            <Button>Add Question</Button>
+          </Col>
+          <Col xs lg="2"/>
+        </Row>      
       <hr/>
       <Container>
         <Row className="justify-content-md-center">
@@ -177,7 +212,7 @@ return(
           </Col>
           <Col xs lg="2"/>
         </Row>
-      </Container>
+      </Container>      
     </div>
   )
 }

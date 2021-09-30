@@ -12,12 +12,12 @@ const SelectAuditToUpdate = () => {
 
     const {loading, data} = useQuery(READ_AUDIT_TYPES);
 
-    const handleSelect = async (event) => {
+    const handleSelect = (event) => {
         event.preventDefault();
         const {value} = event.target;
 
         // console.log(name + " " + value)
-        await setAuditType({
+        setAuditType({
             auditType: value
         });
     }
