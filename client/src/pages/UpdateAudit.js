@@ -81,8 +81,19 @@ const updateQuestion = (event)=>{
   if(name==="value"){
     auditToUpdate.questions[index].value = value;
   }
+  if(name==="correctAnswer"){
+    auditToUpdate.questions[index].correctAnswer = value;
+  }
+  if(name==="answer"){
+    const answerArrayIndex = event.target.parentElement.parentElement.attributes[0].value;
+    const questionArrayIndex = event.target.parentElement.parentElement.parentElement.attributes[0].value;
+    // console.log(auditToUpdate)
+    auditToUpdate.questions[questionArrayIndex].answers[answerArrayIndex] = value;
+  }
   // auditToUpdate[index].name = value;
-  console.log(auditToUpdate)
+  setUpdatedAudit({
+    ...auditToUpdate
+  })
 }
 
 const submitChanges = async (event) =>{
@@ -101,36 +112,50 @@ return(
     <div>
       <h3>Make changes to {data.data.name} on this page</h3>
       <Form>
-        <Form.Label>Audit Name</Form.Label>
-          <Form.Control type="text" key="name" name="name" placeholder={updatedAudit.name} onChange={handleChange} /> 
-        <Form.Label>Audit Type</Form.Label>
+        <h5>Audit Name</h5>
+          <Form.Control type="text" key="name" name="name" placeholder={updatedAudit.name} onChange={handleChange} />
+        <br/> 
+        <h5>Audit Type</h5>
           <AuditTypesButton />
-        
-          {data.data.questions.map((question, index)=>{
+          <br/>
+          {updatedAudit.questions.map((question, index)=>{
             // console.log(question);
             return(
               <div key={index} id={index} onChange={updateQuestion}>
-                <h4>Question {index+1}</h4>
+                <h5>Question {index+1}</h5>
                 <Row>
                   <Col md="auto">Question: </Col>
-                  <Col><Form.Control type="text" name="question" id={index} placeholder={data.data.questions[index].question} /></Col>
+                  <Col><Form.Control as="textarea" name="question" id={index} placeholder={question.question} /></Col>
                 </Row>
                 <Row>
                   <Col md="auto">
                     Question value:
                   </Col>
                   <Col>
-                    <Form.Control type="number" name="value" placeholder={data.data.questions[index].value + " (numbers only)"} />
+                    <Form.Control type="number" name="value" placeholder={question.value + " (numbers only)"} />
                   </Col>
                 </Row>
                 <Row>
                   <Col md="auto">
-                   Correct answer:
+                    Correct answer:
                   </Col>
                   <Col>
-                    <Form.Control type="text" name="correctAnswer" placeholder={data.data.questions[index].correctAnswer} />
+                    <Form.Control type="text" name="correctAnswer" placeholder={question.correctAnswer} />
                   </Col>
                 </Row>
+                {question.answers.map((answer, index)=>{
+                  return(
+                    <Row id={index} >
+                      <Col md="auto">
+                        Answer {index+1}
+                      </Col>
+                      <Col>
+                        <Form.Control name="answer" type="text" placeholder={answer} />
+                      </Col>                      
+                    </Row>
+                  )
+                })}
+                <br/>
               </div>
             )
           })}

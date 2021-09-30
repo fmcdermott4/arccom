@@ -11,9 +11,9 @@ db.once('open', async ()=>{
         // await Profile.deleteMany({});
         // await Profile.create(profileSeeds);
         // await ConductedAudit.create(conductedAuditSeeds);
-        // await AuditToConduct.create(oshaAuditSeeds);
+        await AuditToConduct.create(oshaAuditSeeds);
         // await AuditToConduct.create(isoSeeds);
-        await AuditToConduct.create(productionQuestions);
+        // await AuditToConduct.create(productionQuestions);
 
 
         console.log("Successfully seeded");

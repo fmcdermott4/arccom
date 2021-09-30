@@ -152,11 +152,11 @@ const TableBody = (filters) =>{
     let denominator = 0;
 
     for(let i=0; i<questions.length; i++){
-      if(questions[i].answerGiven === questions[i].correctAnswer && questions[i].answerGiven !== "n/a"){
+      if(questions[i].answerGiven.toLowerCase() === questions[i].correctAnswer.toLowerCase() && questions[i].answerGiven.toLowerCase() !== "n/a"){
         let value = parseInt(questions[i].value)
         numerator+= value
       }
-      if(questions[i].answerGiven !== "n/a" && questions[i].correctAnswer !== "n/a"){
+      if(questions[i].answerGiven.toLowerCase() !== "n/a" && questions[i].correctAnswer.toLowerCase() !== "n/a"){
         let value = parseInt(questions[i].value)
         denominator+= value
       }
