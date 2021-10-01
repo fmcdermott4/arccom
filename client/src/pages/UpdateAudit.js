@@ -93,6 +93,9 @@ const updateQuestion = (event)=>{
   if(name==="correctAnswer"){
     auditToUpdate.questions[index].correctAnswer = value;
   }
+  if(name ==="requirement"){
+    auditToUpdate.questions[index].requirement = value;
+  }
   if(name==="answer"){
     const answerArrayIndex = event.target.parentElement.parentElement.attributes[0].value;
     const questionArrayIndex = event.target.parentElement.parentElement.parentElement.attributes[0].value;
@@ -190,6 +193,14 @@ return(
                   </Col>
                   <Col>
                     <Form.Control type="text" name="correctAnswer" placeholder={question.correctAnswer} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="auto">
+                    Requirement:
+                  </Col>
+                  <Col>
+                    <Form.Control type="text" name="requirement" placeholder={question.requirement} />
                   </Col>
                 </Row>
                 {question.answers.map((answer, index)=>{
