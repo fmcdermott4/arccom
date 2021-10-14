@@ -8,6 +8,8 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Auth from './utils/auth';
+import {useQuery} from '@apollo/client';
+import {READ_ACCESS} from './utils/queries';
 
 // Pages
 import AuditResults from './pages/AuditResults';
@@ -53,8 +55,7 @@ const App = ()=> {
   
   if(!Auth.loggedIn()){
     return(
-      <ApolloProvider client={client}>
-        
+      <ApolloProvider client={client}>        
         <Router>
           <div className="flex-column justify-flex-start min-100-vh">
             <Header /> 
@@ -70,11 +71,101 @@ const App = ()=> {
         </Router>
       </ApolloProvider>
     )
-  } 
-  
-  return (
-    <ApolloProvider client={client}>
+  }
+  const profile= Auth.getProfile();
+  if(!profile.data.active){
+    
+    return(
+      <ApolloProvider client={client}>           
         <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            <Header /> 
+            <div className="container">
+              {alert("Inactive user")}
+              {Auth.logout()} 
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            </div>
+          </div>
+        </Router>
+      </ApolloProvider>
+    )
+  }
+  return(
+    <ApolloProvider client={client}>    
+      <UserTypeRender/>
+    </ApolloProvider>
+  )
+  // return (
+  //   <ApolloProvider client={client}>
+  //       <Router>        
+  //         <div className="flex-column justify-flex-start min-100-vh">
+  //           <Header />
+  //           <Navigation /> 
+  //           <div className="container">
+  //             <Switch>
+  //               <Route exact path="/">
+  //                 <AuditResults />
+  //               </Route>
+  //               <Route exact path="/login">
+  //                 <Login />
+  //               </Route>
+  //               <Route exact path="/signup">
+  //                 <Signup />
+  //               </Route>
+  //               <Route exact path="/audits/selectaudittoconduct">
+  //                 <SelectAuditToConduct />
+  //               </Route>
+  //               <Route exact path="/audits/conductaudit/:auditId">
+  //                 <ConductAudit />
+  //               </Route>  
+  //               <Route exact path="/audits/createaudit">
+  //                 <CreateAudit />
+  //               </Route>
+  //               <Route exact path="/audits/auditresults">
+  //                 <AuditResults />
+  //               </Route>
+  //               <Route exact path="/audits/auditresults/:conductedAuditId">
+  //                 <IndividualAuditResults />
+  //               </Route>
+  //               <Route exact path ="/audits/updateaudit/">
+  //                 <SelectAuditToUpdate />
+  //               </Route>
+  //               <Route exact path="/audits/updateaudit/:auditId">
+  //                 <UpdateAudit />
+  //               </Route>
+  //               <Route exact path="/audits/deleteaudit">
+  //                 <DeleteAudit />
+  //               </Route>
+  //             </Switch>
+  //           </div>
+  //         </div>
+  //       </Router>
+  //   </ApolloProvider>
+  // );
+}
+
+
+
+
+
+const UserTypeRender = () =>{
+  const profile= Auth.getProfile();
+  const {data, loading} = useQuery(READ_ACCESS,
+    {
+      variables: {id : profile.data.access},
+    }
+  )
+  if(loading){
+    return<div>Loading...</div>
+  }  
+  if(data.access.level === "admin"){
+    return(
+      <Router>        
           <div className="flex-column justify-flex-start min-100-vh">
             <Header />
             <Navigation /> 
@@ -94,7 +185,7 @@ const App = ()=> {
                 </Route>
                 <Route exact path="/audits/conductaudit/:auditId">
                   <ConductAudit />
-                </Route>  
+                </Route>
                 <Route exact path="/audits/createaudit">
                   <CreateAudit />
                 </Route>
@@ -117,8 +208,100 @@ const App = ()=> {
             </div>
           </div>
         </Router>
-    </ApolloProvider>
-  );
+    )
+  }  
+  if(data.access.level === "auditor"){
+    return(
+      <Router>        
+          <div className="flex-column justify-flex-start min-100-vh">
+            <Header />
+            <Navigation /> 
+            <div className="container">
+              <Switch>
+                <Route exact path="/">
+                  <AuditResults />
+                </Route>
+                <Route exact path="/login">
+                  <Login />
+                </Route>
+                <Route exact path="/signup">
+                  <Signup />
+                </Route>
+                <Route exact path="/audits/selectaudittoconduct">
+                  <SelectAuditToConduct />
+                </Route>
+                <Route exact path="/audits/conductaudit/:auditId">
+                  <ConductAudit />
+                </Route>
+                <Route exact path="/audits/createaudit">
+                  <CreateAudit />
+                </Route>
+                <Route exact path="/audits/auditresults">
+                  <AuditResults />
+                </Route>
+                <Route exact path="/audits/auditresults/:conductedAuditId">
+                  <IndividualAuditResults />
+                </Route>
+                <Route exact path ="/audits/updateaudit/">
+                  <SelectAuditToUpdate />
+                </Route>
+                <Route exact path="/audits/updateaudit/:auditId">
+                  <UpdateAudit />
+                </Route>
+                <Route exact path="/audits/deleteaudit">
+                  <DeleteAudit />
+                </Route>
+              </Switch>
+            </div>
+          </div>
+        </Router>
+    )
+  }
+  return(
+    <Router>        
+        <div className="flex-column justify-flex-start min-100-vh">
+          <Header />
+          <Navigation /> 
+          <div className="container">
+            <Switch>
+              <Route exact path="/">
+                <AuditResults />
+              </Route>
+              <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/signup">
+                <Signup />
+              </Route>
+              {/* <Route exact path="/audits/selectaudittoconduct">
+                <SelectAuditToConduct />
+              </Route> */}
+              {/* <Route exact path="/audits/conductaudit/:auditId">
+                <ConductAudit />
+              </Route>   */}
+              {/* <Route exact path="/audits/createaudit">
+                <CreateAudit />
+              </Route>
+              <Route exact path="/audits/auditresults">
+                <AuditResults />
+              </Route> */}
+              <Route exact path="/audits/auditresults/:conductedAuditId">
+                <IndividualAuditResults />
+              </Route>
+              {/* <Route exact path ="/audits/updateaudit/">
+                <SelectAuditToUpdate />
+              </Route> */}
+              {/* <Route exact path="/audits/updateaudit/:auditId">
+                <UpdateAudit />
+              </Route> */}
+              {/* <Route exact path="/audits/deleteaudit">
+                <DeleteAudit />
+              </Route> */}
+            </Switch>
+          </div>
+        </div>
+      </Router>
+  )
 }
-
+  
 export default App;
