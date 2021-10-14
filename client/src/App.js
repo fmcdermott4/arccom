@@ -73,8 +73,7 @@ const App = ()=> {
     )
   }
   const profile= Auth.getProfile();
-  if(!profile.data.active){
-    
+  if(!profile.data.active){    
     return(
       <ApolloProvider client={client}>           
         <Router>

@@ -78,7 +78,8 @@ const resolvers = {
             return await Facility.create({name});
         },
         createProfile: async (parent, { name, email, password }) => {
-            const profile = await Profile.create({ name, email, password });
+            const access = await Access.findOne({level : "user"})
+            const profile = await Profile.create({ name, email, password, access });
             const token = signToken(profile);      
             return { token, profile };          
         },

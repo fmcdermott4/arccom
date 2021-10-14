@@ -21,6 +21,7 @@ const profileSchema = new Schema({
     },
     access: {
         type: Schema.Types.ObjectId,
+        required: true,
         ref: "Access"
     },
     active: {
