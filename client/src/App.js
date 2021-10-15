@@ -6,7 +6,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Auth from './utils/auth';
 import {useQuery} from '@apollo/client';
 import {READ_ACCESS} from './utils/queries';
@@ -66,6 +66,7 @@ const App = ()=> {
             <Route exact path="/signup">
               <Signup />
             </Route>
+            <Redirect to="/login" />  
             </div>
           </div>
         </Router>
@@ -90,6 +91,7 @@ const App = ()=> {
             </Route>
             </div>
           </div>
+            
         </Router>
       </ApolloProvider>
     )
@@ -204,6 +206,7 @@ const UserTypeRender = () =>{
                   <DeleteAudit />
                 </Route>
               </Switch>
+              <Redirect to="/" />    
             </div>
           </div>
         </Router>
@@ -250,6 +253,7 @@ const UserTypeRender = () =>{
                 <Route exact path="/audits/deleteaudit">
                   <DeleteAudit />
                 </Route>
+                <Redirect to="/" />    
               </Switch>
             </div>
           </div>
@@ -262,10 +266,7 @@ const UserTypeRender = () =>{
           <Header />
           <Navigation /> 
           <div className="container">
-            <Switch>
-              <Route exact path="/">
-                <AuditResults />
-              </Route>
+            <Switch>              
               <Route exact path="/login">
                 <Login />
               </Route>
@@ -296,6 +297,10 @@ const UserTypeRender = () =>{
               {/* <Route exact path="/audits/deleteaudit">
                 <DeleteAudit />
               </Route> */}
+              <Route exact path="/">
+                  <AuditResults />
+                </Route>
+              <Redirect to="/" />                
             </Switch>
           </div>
         </div>
