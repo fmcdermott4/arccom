@@ -17,7 +17,7 @@ const IndividualAuditResults = () => {
         let numerator = 0;
         let denominator = 0;
                 for(let i=0; i<questions.length; i++){
-            if(questions[i].answerGiven === questions[i].correctAnswer && questions[i].answerGiven.toLowerCase() !== "n/a"){
+            if(questions[i].answerGiven.toLowerCase() === questions[i].correctAnswer.toLowerCase() && questions[i].answerGiven.toLowerCase() !== "n/a"){
                 let value = parseInt(questions[i].value)
                 numerator+= value
             }

@@ -205,8 +205,10 @@ const UserTypeRender = () =>{
                 <Route exact path="/audits/deleteaudit">
                   <DeleteAudit />
                 </Route>
-              </Switch>
-              <Redirect to="/" />    
+                <Route>
+                  <AuditResults />
+                </Route> 
+              </Switch>                
             </div>
           </div>
         </Router>
@@ -253,7 +255,9 @@ const UserTypeRender = () =>{
                 <Route exact path="/audits/deleteaudit">
                   <DeleteAudit />
                 </Route>
-                <Redirect to="/" />    
+                <Route>
+                  <AuditResults />
+                </Route>
               </Switch>
             </div>
           </div>
@@ -297,10 +301,9 @@ const UserTypeRender = () =>{
               {/* <Route exact path="/audits/deleteaudit">
                 <DeleteAudit />
               </Route> */}
-              <Route exact path="/">
-                  <AuditResults />
-                </Route>
-              <Redirect to="/" />                
+              <Route>
+                <AuditResults />
+              </Route>           
             </Switch>
           </div>
         </div>
