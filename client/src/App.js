@@ -268,7 +268,7 @@ const UserTypeRender = () =>{
     <Router>        
         <div className="flex-column justify-flex-start min-100-vh">
           <Header />
-          <Navigation /> 
+          {/* <Navigation />  */}
           <div className="container">
             <Switch>              
               <Route exact path="/login">
