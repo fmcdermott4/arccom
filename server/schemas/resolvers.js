@@ -71,8 +71,8 @@ const resolvers = {
         createAccess: async (parent, {level}) =>{
             return await Access.create({level});
         },
-        createConductedAudit: async (parent, {name, conductedBy, facility, auditType, dateConducted, questions})=>{
-            return await ConductedAudit.create({name, conductedBy, facility, auditType, dateConducted, questions})
+        createConductedAudit: async (parent, {name, conductedBy, facility, auditType, dateConducted, finding, discrepancy, questions})=>{
+            return await ConductedAudit.create({name, conductedBy, facility, auditType, dateConducted, finding, discrepancy, questions})
         }, 
         createFacility: async (parent, {name})=>{
             return await Facility.create({name});

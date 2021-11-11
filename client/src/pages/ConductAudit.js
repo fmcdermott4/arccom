@@ -52,6 +52,8 @@ const Audit = (auditData) => {
         "conductedBy": myProfileId,
         "auditType": auditToConduct.auditType._id,
         "dateConducted": now(),
+        "finding": "",
+        "discrepancy":"",
         "questions": auditToConduct.questions
     });
 
@@ -74,6 +76,22 @@ const Audit = (auditData) => {
         const {value} = event.target;
         let auditToUpdate = JSON.parse(JSON.stringify(audit))
         auditToUpdate.questions[index].comment = value;
+        setAudit(
+            auditToUpdate
+        );
+    };
+    const handleFinding = event =>{
+        const {value} = event.target;
+        let auditToUpdate = JSON.parse(JSON.stringify(audit))
+        auditToUpdate.finding = value;
+        setAudit(
+            auditToUpdate
+        );
+    };
+    const handleDiscrepancy = event =>{
+        const {value} = event.target;
+        let auditToUpdate = JSON.parse(JSON.stringify(audit))
+        auditToUpdate.discrepancy = value;
         setAudit(
             auditToUpdate
         );
@@ -166,6 +184,34 @@ const Audit = (auditData) => {
                         
                     </div>)
             })
+        }
+        {   
+            <div>
+                <Row>
+                    <Col md="auto" >
+                        <h5>
+                            Findings
+                        </h5>
+                    </Col>
+                </Row>
+                <Row>
+                    <Form.Group>
+                        <Form.Control as="textarea" name="finding" onChange={handleFinding} rows={3} placeholder="Findings..."/>  
+                    </Form.Group>
+                </Row>
+                <Row>
+                    <Col md="auto" >
+                        <h5>
+                            Discrepancies
+                        </h5>
+                    </Col>
+                </Row>
+                <Row>
+                    <Form.Group>
+                        <Form.Control as="textarea" name="discrepancy" onChange={handleDiscrepancy} rows={3} placeholder="Discrepancies..."/>  
+                    </Form.Group>
+                </Row>
+            </div>
         }
         <Button onClick={handleFormSubmit}>Submit Audit</Button>
     </div>

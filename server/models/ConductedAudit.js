@@ -19,6 +19,14 @@ const conductedAuditSchema = new Schema({
     facility:{
         type:Schema.Types.ObjectId,
         ref: "Facility"
+    },    
+    finding: {
+        type: String,
+        trim: true
+    },
+    discrepancy: {
+        type: String,
+        trim: true
     },
     questions:[
         {
