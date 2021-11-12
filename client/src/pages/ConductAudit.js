@@ -111,6 +111,7 @@ const Audit = (auditData) => {
         let dataCheck = true;
         for(let i=0; i<audit.questions.length; i++){
             delete audit.questions[i].__typename;
+            delete audit.questions[i]._id;
             if(!audit.questions[i].answerGiven){
                 dataCheck = false;
             }
@@ -135,7 +136,11 @@ const Audit = (auditData) => {
         return<div>Loading...</div>
     }
     const sortedFacility = JSON.parse(JSON.stringify(data.facilities));
-    sortedFacility.sort((a, b)=>(a.name>b.name)? 1: -1)
+    sortedFacility.sort((a, b)=>(a.name>b.name)? 1: -1);
+
+    const showAudit = () =>{
+        console.log(audit)
+    }
     return(
     <div>
         {   <Row>
@@ -214,6 +219,7 @@ const Audit = (auditData) => {
             </div>
         }
         <Button onClick={handleFormSubmit}>Submit Audit</Button>
+        <Button onClick={showAudit}>Show Audit</Button>
     </div>
     )
 }

@@ -153,14 +153,10 @@ const submitChanges = async (event) =>{
   try{
     await updateAuditToConduct({
       variables: {...updatedAuditToSubmit}
-    }).then(alert("Successfully updated " + data.data.name + " to " + updatedAudit.name)).then(console.log(updatedAuditToSubmit))
-    // .then(history.push("/audits/updateaudit"))
+    }).then(alert("Successfully updated " + data.data.name + " to " + updatedAudit.name)).then(history.push("/audits/updateaudit"))
   }catch(e){
     console.log(e)
   }
-}
-const showAudit = () =>{
-  console.log(updatedAudit)
 }
 return(
     <div>
@@ -248,7 +244,7 @@ return(
         <Row className="justify-content-md-center">
           <Col xs lg="2"/>
           <Col md="auto">
-          <Button onClick={showAudit}>ShowAudit</Button>
+          
             <Button onClick={submitChanges}>Submit changes</Button>
           </Col>
           <Col xs lg="2"/>
