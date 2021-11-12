@@ -52,7 +52,12 @@ const IndividualAuditResults = () => {
                 </h5>
                 <h5>
                     Result: {auditResult(data.conductedAudit.questions)}
-                </h5>        
+                </h5>
+                <div>
+                    {
+                        (data.conductedAudit.finding === "")?<div>Hey</div> : <div>Ho</div>
+                    }
+                </div>       
             </div>
             <hr/>
             <div>

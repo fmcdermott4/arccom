@@ -33,6 +33,8 @@ const UpdateAudit = () => {
 const Audit = (data)=>{
 
 const [updatedAudit, setUpdatedAudit] =useState({name: data.data.name, id: data.data._id, auditType: data.data.auditType._id, questions: data.data.questions});  
+
+
 const history = useHistory();
 const handleChange = (event) =>{
   const {name, value} = event.target;
@@ -65,6 +67,8 @@ const AuditTypesButton = () =>{
 
   )
 }
+
+
 const [updateAuditToConduct] = useMutation(UPDATE_AUDIT_TO_CONDUCT);
 
 const addAnswer = (event) =>{
@@ -109,7 +113,7 @@ const updateQuestion = (event)=>{
   // console.log(updatedAudit)
 }
 const addQuestion = (event) =>{
-    const question = {answerGiven : "", comment: "", requirement : "", question: "", value: 0, correctAnswer:"", answers:["yes", "no"]};
+    const question = {__typename: 'Question', _id:"",answerGiven : "", comment: "", requirement : "", question: "", value: "0", correctAnswer:"", answers:["yes", "no"]};
   const auditToUpdate = JSON.parse(JSON.stringify(updatedAudit));
   auditToUpdate.questions.push(question);
   setUpdatedAudit({
@@ -141,18 +145,23 @@ const submitChanges = async (event) =>{
 
   
   const updatedAuditToSubmit = JSON.parse(JSON.stringify(updatedAudit));
-  for(let i=0; i<updatedAuditToSubmit.questions.length; i++){
+  for( let i = 0; i<updatedAuditToSubmit.questions.length; i++){
     delete updatedAuditToSubmit.questions[i].__typename;
+    delete updatedAuditToSubmit.questions[i]._id;
   }
+  
   try{
     await updateAuditToConduct({
       variables: {...updatedAuditToSubmit}
-    }).then(alert("Successfully updated " + data.data.name + " to " + updatedAudit.name)).then(history.push("/audits/updateaudit"))
+    }).then(alert("Successfully updated " + data.data.name + " to " + updatedAudit.name)).then(console.log(updatedAuditToSubmit))
+    // .then(history.push("/audits/updateaudit"))
   }catch(e){
     console.log(e)
   }
 }
-
+const showAudit = () =>{
+  console.log(updatedAudit)
+}
 return(
     <div>
       <h3>Make changes to {data.data.name} on this page</h3>
@@ -239,6 +248,7 @@ return(
         <Row className="justify-content-md-center">
           <Col xs lg="2"/>
           <Col md="auto">
+          <Button onClick={showAudit}>ShowAudit</Button>
             <Button onClick={submitChanges}>Submit changes</Button>
           </Col>
           <Col xs lg="2"/>

@@ -81,7 +81,6 @@ const CreateAudit = () => {
         // console.log(event.target.value)
         switch (event.target.name){
             case "question":
-                console.log("question");
                 audit.questions[event.target.attributes[0].value].question = event.target.value;
                 break;
             case "correctAnswer":
@@ -100,7 +99,6 @@ const CreateAudit = () => {
         setAuditType({
             ...audit
         })
-        console.log(audit)
     };
 
     const [createAuditToConduct, {error}] = useMutation(CREATE_AUDIT_TO_CONDUCT);

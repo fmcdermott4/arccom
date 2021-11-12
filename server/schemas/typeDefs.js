@@ -91,10 +91,9 @@ const typeDefs = gql`
         updateProfile(id:ID, name:String, email:String, password:String, access:ID, active:Boolean):Profile
     }
     input AnsweredQuestion {
-        _id:ID
         requirement: String
-        question: String
-        value: String
+        question: String!
+        value: String!
         correctAnswer: String
         answerGiven: String
         answers:[String] 

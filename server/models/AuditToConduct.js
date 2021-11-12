@@ -19,7 +19,7 @@ const auditToConductSchema = new Schema({
             question: {
                 type: String,
                 required: true,
-                trim:true,
+                trim:true
             },
             value: {
                 type: String,
@@ -29,7 +29,7 @@ const auditToConductSchema = new Schema({
             correctAnswer: {
                 type: String,
                 required: true,
-                trim:true,        
+                trim:true       
             },
             answerGiven: {
                 type: String,
@@ -38,7 +38,7 @@ const auditToConductSchema = new Schema({
             answers: [
                 {
                     type:String,
-                    trim:true,
+                    trim:true
                 }
             ],
             comment: {

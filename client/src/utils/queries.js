@@ -113,6 +113,8 @@ export const READ_CONDUCTED_AUDIT = gql`
                 name
             }
             dateConducted
+            finding
+            discrepancy
             questions{
                 _id
                 requirement
