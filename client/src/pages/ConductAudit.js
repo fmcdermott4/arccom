@@ -138,9 +138,6 @@ const Audit = (auditData) => {
     const sortedFacility = JSON.parse(JSON.stringify(data.facilities));
     sortedFacility.sort((a, b)=>(a.name>b.name)? 1: -1);
 
-    const showAudit = () =>{
-        console.log(audit)
-    }
     return(
     <div>
         {   <Row>
@@ -219,7 +216,6 @@ const Audit = (auditData) => {
             </div>
         }
         <Button onClick={handleFormSubmit}>Submit Audit</Button>
-        <Button onClick={showAudit}>Show Audit</Button>
     </div>
     )
 }
