@@ -3,6 +3,7 @@ import { useParams} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 import {READ_CONDUCTED_AUDIT} from '../utils/queries';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 const IndividualAuditResults = () => {
@@ -47,17 +48,33 @@ const IndividualAuditResults = () => {
                 <h5>
                     Audit Name: {data.conductedAudit.name}
                 </h5>
-                <h5>
-                    Auditor: {data.conductedAudit.conductedBy.name}
-                </h5>
+                
                 <h5>
                     Result: {auditResult(data.conductedAudit.questions)}
                 </h5>
-                <div>
-                    {
-                        (data.conductedAudit.finding === "")?<div>Hey</div> : <div>Ho</div>
-                    }
-                </div>       
+                <Row>
+                    <Col md="auto">
+                        <h5>Findings:</h5>
+                    </Col>
+                    <Col>
+                        {
+                            (data.conductedAudit.finding === "" || data.conductedAudit.finding === null)?<div>none</div> : <div>{data.conductedAudit.finding}</div>
+                        }
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="auto">
+                        <h5>Discrepancies:</h5>
+                    </Col>
+                    <Col>
+                        {
+                            (data.conductedAudit.discrepancy === "" || data.conductedAudit.discrepancy === null)?<div>none</div> : <div>{data.conductedAudit.discrepancy}</div>
+                        }
+                    </Col>
+                </Row>
+                <h5>
+                    Auditor: {data.conductedAudit.conductedBy.name}
+                </h5>      
             </div>
             <hr/>
             <div>
